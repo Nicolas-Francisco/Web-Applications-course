@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8">
+    <!-- Hackbox title -->
+    <title> Hackbox </title>
+    <style>
+        /* Body of the page*/
+        body {
+            font-size: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+            sans-serif, Apple Color Emoji, Segoe UI Emoji;
+            margin: 0;
+        }
+        .title {
+            text-align: center;
+            font-size: 50px;
+            margin-top: 3%;
+            margin-bottom: 3%;
+            font-weight: 200;
+        }
+        @media screen and (max-width: 500px){
+            .black {
+                font-size: 15px;
+            }
+        }
+        #main {
+            background-color: #e9e9e9;
+            margin: auto;
+            width: 450px;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .leyenda {
+            width: 10%;
+            display: inline;
+            margin-left: 5px;
+        }
+        input {
+            padding: 5px;
+            width: 90%;
+        }
+        .entrada {
+            margin-bottom: 5px;
+        }
+    </style>
+    </head>
+<!-- Hackbox body -->
+<body>
+<div class="title black"> Hackbox </div>
+<div id="main">
+    <!-- post and action -->
+    <form method="post" action="example.py">
+        <div class="entrada">
+            <!-- We start a table to organize the inputs in columns -->
+            <table>
+                <!-- First row: Nombre -->
+                <tr>
+                    <td width="40%"> <div class="leyenda"> Nombre </div> </td>
+                    <td> <input required="required" type="text" size="10" id="nombre" name="nombre"
+                               placeholder="Escriba su nombre aqui" maxlength="100" minlength="10"> </td>
+                </tr>
+
+                <!-- Second row: Archivo -->
+                <tr>
+                    <td> <div class="leyenda"> Archivo </div> </td>
+                    <td> <input name="archivo" required="required" type="file" accept="application/pdf"> </td>
+                </tr>
+
+                <!-- Third row: Privacidad -->
+                <tr>
+                    <td> <div class="leyenda"> Privacidad </div> </td>
+                    <td> <select required="required" name="privacidad">
+                            <option> Público </option>
+                            <option> Privado </option>
+                        </select> </td>
+                </tr>
+
+                <!-- Fourth row: Contraseña -->
+                <tr>
+                    <td> <div class="leyenda"> Contraseña </div> </td>
+                    <td> <input type="password" name="contrasena" size="10" maxlength="10"> </td>
+                </tr>
+
+                <!-- Fifth row: Autodestruir -->
+                <tr>
+                    <td> <div class="leyenda"> Autodestruir </div> </td>
+                    <td> <input type="number" size="10" name="autodestruir" max="31536000" min="1"> </td>
+                </tr>
+
+                <!-- Sixth row: Comentario -->
+                <tr>
+                    <td> <div class="leyenda"> Comentario </div> </td>
+                    <td> <textarea name="comentario" placeholder="Ingrese sus comentarios acá"
+                               rows="10" cols="40"></textarea> </td>
+                </tr>
+
+                <!-- Seventh row: Upload botton -->
+                <tr>
+                    <td> </td>
+                    <td> <div class="boton">
+                            <button name="upload" type="submit"> Upload </button>
+                        </div> </td>
+                </tr>
+            </table>
+            <!-- We close the table -->
+        </div>
+    </form>
+</div>
+</body>
+
+</html>
