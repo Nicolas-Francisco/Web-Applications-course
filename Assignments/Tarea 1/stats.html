@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <meta charset="UTF-8">
-    <!-- Hackbox title -->
-    <title> RegistroBichos </title>
+    <title> RegistroBichos - Estadísticas </title>
     <style>
         /* Body of the page*/
         body {
@@ -41,30 +40,15 @@
             font-size: 19px;
             color: black;
         }
-        .jump{
-            margin-top: 2%;
-        }
         @media screen and (max-width: 500px){
             .black {
                 font-size: 15px;
             }
         }
-        #menu {
-            background-color: #AAFF8F;
-            margin: auto;
-            width: 200px;
-            padding: 15px;
-            border-radius: 20px;
-        }
         .leyenda {
             width: 10%;
             display: inline;
             margin: 5px;
-        }
-        .info {
-            font-family: Helvetica, sans-serif;
-            margin: auto;
-            text-align-all: center;
         }
         input {
             padding: 5px;
@@ -79,45 +63,12 @@
 <div class="title"> RegistroBichos.com </div>
 <div class="subtitle"> Bienvenidos a RegistroBichos.com, la página de registro de avistamientos de insectos,
     arácnidos y miriápodos</div>
-<div id="menu">
-    <!-- post and action -->
-    <form method="post" action="example.py">
-        <div class="leyenda">
-            <!-- We start a table to organize the main menu -->
-            <table style="margin: 0 auto;">
-                <!-- First row: Informar Avistamiento -->
-                <tr style="text-align:center">
-                    <td style="text-align:center">
-                        <button name="Inform" type="button"> Informar Avistamiento </button>
-                    </td>
-                </tr>
-
-                <!-- Second row: Ver listado de Avistamientos -->
-                <tr>
-                    <td style="text-align:center">
-                        <button name="See" type="button"> Ver listado de Avistamientos  </button>
-                    </td>
-                </tr>
-
-                <!-- Third row: Estadísticas -->
-                <tr style="text-align:center">
-                    <td style="text-align:center">
-                        <button name="Stats" type="button"> Estadísticas </button>
-                    </td>
-                </tr>
-            </table>
-            <!-- We close the table -->
-        </div>
-    </form>
-</div>
-
-<div class="jump"></div>
 
 <div class="subsubtitle">
-    Últimos avistamientos
+    Estadísticas
 </div>
 
-<div class="info">
+<div class = "info">
     <!-- post and action -->
     <form method="post" action="example.py">
         <div class="leyenda">
@@ -181,7 +132,6 @@
         </div>
     </form>
 </div>
-
 </body>
 
 </html>
