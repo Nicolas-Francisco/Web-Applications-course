@@ -1,0 +1,47 @@
+---
+title: "Stats - Web Aplications Asignment 1"
+output: html_notebook
+---
+
+```{r}
+library(ggplot2)
+
+# Gráfico 1 - gráfico de líneas que informa la cantidad de avistamientos por día
+days <- c(1:60)
+values <- sample(0:6, 60, replace=T) 
+
+graph1 <- data.frame(days = days, values = values)
+
+ggplot(graph1, aes(x = days, y = values)) + 
+  geom_line() +
+  ggtitle("Cantidad de avistamientos en los últimos 60 días") +
+  xlab("Días") + ylab("Cantidad de Avistamientos") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+```{r}
+# Gráfico 2 - gráfico de torta que muestra el total de avistamientos por tipo
+
+graph2 <- data.frame(x = c("Insecto", "Arácnido", "Miriápodo", "No sé"), y = c(76, 49, 15, 24))
+pie(graph2$y, labels=graph2$x, main="Avistamientos por tipo")
+
+```
+
+```{r}
+# Gráfico 3 - barras que muestra tres barras porcada punto del eje X. El eje X son los meses y para cada mes muestra una barra con la cantidad de avistamientos de seres vivos, otra barra con la cantidad de seres muertos otra con la cantidad de seres con estado “no sé”. El eje Y indica la cantidad
+
+library(ggplot2)
+
+estados <- c("Vivo", "Vivo", "Vivo", "Vivo", "Vivo", "Vivo",
+             "Muerto", "Muerto", "Muerto", "Muerto", "Muerto", "Muerto",
+             "No sé", "No sé", "No sé", "No sé", "No sé", "No sé")
+meses <- rep(c("1", "2", "3", "4", "5", "6"), 3)
+cantidades <- c(34, 45, 46, 39, 48, 38, 25, 17, 19, 23, 22, 25, 22, 16, 23, 18, 19, 23)
+
+graph3 <- data.frame(estados=estados, meses=meses, values=as.numeric(cantidades))
+
+ggplot(graph3, aes(x=meses, fill=estados)) +
+  geom_bar(position = "dodge")
+
+```
+
