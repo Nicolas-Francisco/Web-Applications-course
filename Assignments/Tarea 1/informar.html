@@ -109,7 +109,7 @@
 <div class="subsubtitle"> Informar Avistamientos </div>
 
 <div class="info">
-    <form method="post" action="main.py">
+    <form method="post" onsubmit="verificador()">
         <!-- We start a table to organize the info menu -->
         <table border="1px solid black" style="margin: 0 auto;">
             <!-- First row -->
@@ -152,7 +152,7 @@
             <tr>
                 <td> Sector </td>
                 <td>
-                    <textarea cols="100", rows="2"> </textarea>
+                    <textarea name="sector" cols="100" rows="2"> </textarea>
                 </td>
             </tr>
 
@@ -160,19 +160,19 @@
             <tr>
                 <th rowspan="3"> Contacto </th>
                 <td> Nombre </td>
-                <td> <input type="text" name="nombre" size="100" placeholder="Ingrese su Nombre"> </td>
+                <td> <input type="text" name="nombre" size="100" placeholder="Ingrese su Nombre" required="required"> </td>
             </tr>
 
             <!-- Fifth row -->
             <tr>
                 <td> E-Mail </td>
-                <td> <input type="email" name="email" size="100" MAXLENGTH="200" placeholder="Ingrese su E-Mail"> </td>
+                <td> <input type="email" name="email" size="100" MAXLENGTH="200" placeholder="Ingrese su E-Mail" required="required"> </td>
             </tr>
 
             <!-- Sixth row -->
             <tr>
                 <td> Celular </td>
-                <td> <input type="text" name="celular" size="15" placeholder="Ingrese su número celular"> </td>
+                <td> <input type="text" name="celular" size="15" placeholder="Ingrese su número celular (sin prefijo +569)"> </td>
             </tr>
 
             <!-- Seventh row -->
@@ -214,11 +214,15 @@
             <!-- Tenth row -->
             <tr>
                 <td> Foto </td>
-                <td> <input type="file" name="foto" accept=".jpg,.png" multiple /> </td>
+                <td> <input type="file" name="foto" accept=".jpg,.png"/> </td>
             </tr>
         </table>
         <!-- We close the table -->
-        <button type="submit" align="center"> Submit </button>
+        <div class="jump"></div>
+
+        <div class="leyenda" text-align="center">
+            <button class="button" type="submit"> Enviar información de avistamiento </button>
+        </div>
     </form>
 </div>
 
@@ -259,11 +263,34 @@
     }
 
     function verificador(){
+        var nombre = document.getElementsByName("nombre")[0].value;
+        var email = document.getElementsByName("email")[0].value;
+        var celular = document.getElementsByName("celular")[0].value;
+        var sector = document.getElementsByName("sector")[0].value;
+        var fecha = document.getElementsByName("dia-hora")[0].value;
+        var aproved = true;
 
-    }
 
-    function agregar_img(){
+        if ((nombre.length > 200) || (!(/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü \s]+$/.test(nombre)))) {
+            alert("El nombre ingresado es incorrecto.");
+            aproved = false;
+        }
+        if (!(/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i.test(email))) {
+            alert("La dirección de email es incorrecta.");
+            aproved = false;
+        }
+        if ((celular !== "") && (!(/^\d{8}$/.test(celular)))) {
+            alert("El número ingresado es incorrecto.");
+            aproved = false;
+        }
+        if ((sector !== "") && ((nombre.length > 100) || (!(/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü \s]+$/.test(nombre))))) {
+            alert("El sector ingresado es incorrecto.");
+            aproved = false;
+        }
 
+        if (aproved){
+
+        }
     }
 
 </script>
