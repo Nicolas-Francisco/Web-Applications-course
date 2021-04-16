@@ -7,7 +7,7 @@
         /* Body of the page*/
         body {
             font-family: Helvetica, sans-serif;
-            margin: 0px;
+            margin: 0;
         }
         .title {
             /* Title settings */
@@ -180,7 +180,7 @@
                 <th rowspan="4"> Información <br> del <br> Avistamiento </th>
                 <td> Día / Hora </td>
                 <td>
-                    <input type="datetime-local" name="dia-hora">
+                    <input type="text" name="dia-hora" placeholder="Ingrese fecha (aaaa-mm-dd hh:mm)">
                 </td>
             </tr>
 
@@ -219,7 +219,7 @@
                     <table>
                         <tr>
                             <td>
-                                <input size="60" style="display:inline" type="file" name="foto" accept=".jpg,.png"/>
+                                <input style="display:inline" type="file" name="foto" accept=".jpg,.png"/>
                             </td>
                             <td>
                                 <button name="boton_agregar" onclick="agregar_img(1)" type="button"> Agregar imágen </button>
@@ -237,7 +237,7 @@
 
         <div class="leyenda" text-align="center">
             <button name='avist' class="button" type="button" style="display:inline" onclick="agregar_avistamiento()"> Informar otro avistamiento en este sector </button>
-            <button name='submit' class="button" type="submit" style="display:inline"> Enviar información de avistamiento </button>
+            <button name='submit' class="button" type="button" style="display:inline" onclick="submit()"> Enviar información de avistamiento </button>
         </div>
     </form>
 </div>
@@ -245,7 +245,7 @@
 <div class="jump"></div>
 
 <script>
-    var lista_comunas = {
+    let lista_comunas = {
         '1': ["Arica","Camarones","Putre","General Lagos"],
         '2': ["Iquique","Alto Hospicio","Pozo Almonte","Camiña","Colchane","Huara","Pica"],
         '3': ["Antofagasta","Mejillones","Sierra Gorda","Taltal","Calama","Ollague","San Pedro De Atacama","Tocopilla","María Elena"],
@@ -265,30 +265,33 @@
     };
 
     function select_comunas(){
-        var regiones = document.getElementsByName('region')[0];
-        var comuna = document.getElementsByName('comuna')[0];
-        var region_selected = regiones.value;
+        let regiones = document.getElementsByName('region')[0];
+        let comuna = document.getElementsByName('comuna')[0];
+        let region_selected = regiones.value;
         comuna.innerHTML = '<option value=""> Seleccione una comuna </option>';
 
         if (region_selected !== '') {
-            var comuna_por_region = lista_comunas[region_selected];
+            let comuna_por_region = lista_comunas[region_selected];
             for (c in comuna_por_region) {
-                var opcion = document.createElement("option");
+                let opcion = document.createElement("option");
                 opcion.text = comuna_por_region[c];
                 comuna.add(opcion);
             }
         }
     }
 
-    function verificador(){
-        var nombre = document.getElementsByName("nombre")[0].value;
-        var email = document.getElementsByName("email")[0].value;
-        var celular = document.getElementsByName("celular")[0].value;
-        var sector = document.getElementsByName("sector")[0].value;
-        var fecha = document.getElementsByName("dia-hora")[0].value;
-        var archivos = document.getElementsByName('foto');
-        var aproved = true;
+    function submit(){
+        verificador();
+    }
 
+    function verificador(){
+        let nombre = document.getElementsByName("nombre")[0].value;
+        let email = document.getElementsByName("email")[0].value;
+        let celular = document.getElementsByName("celular")[0].value;
+        let sector = document.getElementsByName("sector")[0].value;
+        let fechas = document.getElementsByName("dia-hora");
+        let archivos = document.getElementsByName('foto');
+        let aproved = true;
 
         if ((nombre.length > 200) || (!(/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü \s]+$/.test(nombre)))) {
             alert("El nombre ingresado es incorrecto.");
@@ -306,6 +309,13 @@
             alert("El sector ingresado es incorrecto.");
             aproved = false;
         }
+        for (let i=0; i<=fechas.length - 1; i++)
+            var fecha = fechas[i].value;
+            let expr = /^\d{4}-((0[13578]|1[02])-(0[1-9]|[12]\d|3[01])|(0[469]|11)-(0[1-8]|[12]\d|30)|02-(0[1-9]|[1]\d|2[0-9])) ([01]\d|2[0123]):([0-4]\d|5[0-9])$/;
+            if (!(expr.test(fecha))){
+                alert("La fecha ingresada es incorrecta")
+                aproved = false;
+            }
 
         if (archivos.length == 0) {
             alert("No ha ingresado ningún archivo")
@@ -315,21 +325,16 @@
                 let archivo = archivos[i];
                 let extension = archivo.substring(archivo.lastIndexOf('.'), archivo.length).toLowerCase();
                 if (archivo.getAttribute('accept').split(',').indexOf(extension) < 0) {
-                    alert('Archivo inválido. No se permite la extensión ' + extension);
+                    alert('Archivo ingresado es inválido. No se permite la extensión ' + extension);
                     aproved = false;
                 }
             }
         }
-
-        if (aproved) {
-            print('aprovadoooo yey');
-        }
     }
 
-    var img = 1;
     function agregar_img(num){
         if (num==1){
-            var imagen = document.getElementsByName("agregar_aqui");
+            let imagen = document.getElementsByName("agregar_aqui");
             if (imagen.length < 5){
                 imagen[imagen.length - 1].innerHTML = '<table>\n' +
                     '                        <tr>\n' +
@@ -341,7 +346,7 @@
                     '                    </table>';
             }
         } else {
-            var imagen = document.getElementsByName("agregar_aqui_img2");
+            let imagen = document.getElementsByName("agregar_aqui_img2");
             if (imagen.length < 5){
                 imagen[imagen.length - 1].innerHTML = '<table>\n' +
                     '                        <tr>\n' +
@@ -356,133 +361,68 @@
     }
 
     function agregar_avistamiento(){
-        var avist = document.getElementsByName("agregar_aqui_avistamiento")[0];
-        avist.innerHTML = '<table border="1px solid black" style="margin: 0 auto;">\n' +
-        '            <!-- First row -->\n' +
-        '            <tr>\n' +
-        '                <th rowspan="3"> Lugar </th>\n' +
-        '                <td> Región </td>\n' +
-        '                <td>\n' +
-        '                    <select required="required" name="region" onchange="select_comunas()">\n' +
-        '                        <option value="" disabled selected> Seleccione una Región </option>\n' +
-        '                        <option value="1"> Arica y Parinacota </option>\n' +
-        '                        <option value="2"> Tarapacá </option>\n' +
-        '                        <option value="3"> Antofagasta </option>\n' +
-        '                        <option value="4"> Atacama </option>\n' +
-        '                        <option value="5"> Coquimbo </option>\n' +
-        '                        <option value="6"> Valparaíso </option>\n' +
-        '                        <option value="7"> Libertador General Bernardo O\'Higgins </option>\n' +
-        '                        <option value="8"> Maule </option>\n' +
-        '                        <option value="9"> Ñuble </option>\n' +
-        '                        <option value="10"> BioBío </option>\n' +
-        '                        <option value="11"> La Araucanía </option>\n' +
-        '                        <option value="12"> Los Ríos </option>\n' +
-        '                        <option value="13"> Los Lagos </option>\n' +
-        '                        <option value="14"> Aysén del General Carlos Ibañez del Campo </option>\n' +
-        '                        <option value="15"> Magallanes y la Antartica Chilena </option>\n' +
-        '                        <option value="16"> Metropolitana de Santiago </option>\n' +
-        '                    </select>\n' +
-        '                </td>\n' +
-        '            </tr>\n' +
-        '            <!-- Second row -->\n' +
-        '            <tr>\n' +
-        '                <td> Comuna </td>\n' +
-        '                <td>\n' +
-        '                    <select required="required" name="comuna">\n' +
-        '                        <option value="" disabled selected> Seleccione una Comuna </option>\n' +
-        '                    </select>\n' +
-        '                </td>\n' +
-        '            </tr>\n' +
-        '\n' +
-        '            <!-- Third row -->\n' +
-        '            <tr>\n' +
-        '                <td> Sector </td>\n' +
-        '                <td>\n' +
-        '                    <textarea name="sector" cols="100" rows="2"> </textarea>\n' +
-        '                </td>\n' +
-        '            </tr>\n' +
-        '\n' +
-        '            <!-- Fourth row -->\n' +
-        '            <tr>\n' +
-        '                <th rowspan="3"> Contacto </th>\n' +
-        '                <td> Nombre </td>\n' +
-        '                <td> <input type="text" name="nombre" size="100" placeholder="Ingrese su Nombre" required="required"> </td>\n' +
-        '            </tr>\n' +
-        '\n' +
-        '            <!-- Fifth row -->\n' +
-        '            <tr>\n' +
-        '                <td> E-Mail </td>\n' +
-        '                <td> <input type="email" name="email" size="100" MAXLENGTH="200" placeholder="Ingrese su E-Mail" required="required"> </td>\n' +
-        '            </tr>\n' +
-        '\n' +
-        '            <!-- Sixth row -->\n' +
-        '            <tr>\n' +
-        '                <td> Celular </td>\n' +
-        '                <td> <input type="text" name="celular" size="15" placeholder="Ingrese su número celular (sin prefijo +569)"> </td>\n' +
-        '            </tr>\n' +
-        '\n' +
-        '            <!-- Seventh row -->\n' +
-        '            <tr>\n' +
-        '                <th rowspan="4"> Información <br> del <br> Avistamiento </th>\n' +
-        '                <td> Día / Hora </td>\n' +
-        '                <td>\n' +
-        '                    <input type="datetime-local" name="dia-hora">\n' +
-        '                </td>\n' +
-        '            </tr>\n' +
-        '\n' +
-        '            <!-- Eighth row -->\n' +
-        '            <tr>\n' +
-        '                <td> Tipo </td>\n' +
-        '                <td>\n' +
-        '                    <select required="required" name="tipo">\n' +
-        '                        <option value="" disabled selected> Seleccione un tipo </option>\n' +
-        '                        <option> Insecto </option>\n' +
-        '                        <option> Arácnido </option>\n' +
-        '                        <option> Miriápodo </option>\n' +
-        '                        <option> No sé </option>\n' +
-        '                    </select>\n' +
-        '                </td>\n' +
-        '            </tr>\n' +
-        '\n' +
-        '            <!-- Nineth row -->\n' +
-        '            <tr>\n' +
-        '                <td> Estado </td>\n' +
-        '                <td>\n' +
-        '                    <select required="required" name="estado">\n' +
-        '                        <option value="" disabled selected> Seleccione un Estado </option>\n' +
-        '                        <option> Vivo </option>\n' +
-        '                        <option> Muerto </option>\n' +
-        '                        <option> No sé </option>\n' +
-        '                    </select>\n' +
-        '                </td>\n' +
-        '            </tr>\n' +
-        '\n' +
-        '            <!-- Tenth row -->\n' +
-        '            <tr>\n' +
-        '                <td> Foto </td>\n' +
-        '\n' +
-        '                <td>\n' +
-        '                    <table>\n' +
-        '                        <tr>\n' +
-        '                            <td>\n' +
-        '                                <input size="60" style="display:inline" type="file" name="foto" accept=".jpg,.png"/>\n' +
-        '                            </td>\n' +
-        '                            <td>\n' +
-        '                                <button name="boton_agregar" onclick="agregar_img(2)" type="button"> Agregar imágen </button>\n' +
-        '                            </td>\n' +
-        '                        </tr>\n' +
-        '                        <div name="agregar_aqui_img2"></div>\n' +
-        '                    </table>\n' +
-        '                </td>\n' +
-        '            </tr>\n' +
-        '        </table>\n' +
-        '        <!-- We close the table -->\n' +
-        '        <div class="jump"></div>';
+        let avist = document.getElementsByName("agregar_aqui_avistamiento")[0];
+        avist.innerHTML = '\t<table border="1px solid black" style="margin: 0 auto;">\n' +
+            '            <tr>\n' +
+            '                <th rowspan="4"> Información <br> del <br> Avistamiento </th>\n' +
+            '                <td> Día / Hora </td>\n' +
+            '                <td>\n' +
+            '                    <input type="text" name="dia-hora" placeholder="Ingrese fecha (aaaa-mm-dd hh:mm)">\n' +
+            '                </td>\n' +
+            '            </tr>\n' +
+            '\n' +
+            '            <!-- Eighth row -->\n' +
+            '            <tr>\n' +
+            '                <td> Tipo </td>\n' +
+            '                <td>\n' +
+            '                    <select required="required" name="tipo">\n' +
+            '                        <option value="" disabled selected> Seleccione un tipo </option>\n' +
+            '                        <option> Insecto </option>\n' +
+            '                        <option> Arácnido </option>\n' +
+            '                        <option> Miriápodo </option>\n' +
+            '                        <option> No sé </option>\n' +
+            '                    </select>\n' +
+            '                </td>\n' +
+            '            </tr>\n' +
+            '\n' +
+            '            <!-- Nineth row -->\n' +
+            '            <tr>\n' +
+            '                <td> Estado </td>\n' +
+            '                <td>\n' +
+            '                    <select required="required" name="estado">\n' +
+            '                        <option value="" disabled selected> Seleccione un Estado </option>\n' +
+            '                        <option> Vivo </option>\n' +
+            '                        <option> Muerto </option>\n' +
+            '                        <option> No sé </option>\n' +
+            '                    </select>\n' +
+            '                </td>\n' +
+            '            </tr>\n' +
+            '\n' +
+            '            <!-- Tenth row -->\n' +
+            '            <tr>\n' +
+            '                <td> Foto </td>\n' +
+            '\n' +
+            '                <td>\n' +
+            '                    <table>\n' +
+            '                        <tr>\n' +
+            '                            <td>\n' +
+            '                                <input style="display:inline" type="file" name="foto" accept=".jpg,.png"/>\n' +
+            '                            </td>\n' +
+            '                            <td>\n' +
+            '                                <button name="boton_agregar" onclick="agregar_img(2)" type="button"> Agregar imágen </button>\n' +
+            '                            </td>\n' +
+            '                        </tr>\n' +
+            '                        <div name="agregar_aqui_img2"></div>\n' +
+            '                    </table>\n' +
+            '                </td>\n' +
+            '            </tr>\n' +
+            '        </table>\n' +
+            '        <!-- We close the table -->\n' +
+            '        <div class="jump"></div>';
 
         let boton_agregar_avist = document.getElementsByName('avist')[0];
         boton_agregar_avist.setAttribute('style', 'display: none');
     }
-
 </script>
 
 </body>
