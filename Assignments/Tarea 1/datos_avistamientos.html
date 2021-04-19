@@ -106,7 +106,7 @@
 
 <div class="jump"></div>
 
-<div class="subsubtitle"> Avistamiento </div>
+<div class="subsubtitle"> Datos de Avistamiento </div>
 
 <div class="info">
     <div class="leyenda">
@@ -114,69 +114,75 @@
         <table border="1px solid black" style="margin: 0 auto;">
             <!-- First row -->
             <tr>
-                <th scope="col"> Fecha/Hora </th>
-                <th scope="col"> Comuna </th>
-                <th scope="col"> Sector </th>
-                <th scope="col"> Nombre Contacto </th>
-                <th scope="col"> Total Avistamientos </th>
-                <th scope="col"> Total Fotos </th>
+                <td> Fecha/Hora </td>
+                <td> 2021-04-14 16:22 </td>
             </tr>
 
             <!-- Second row -->
-            <tr onclick="location.href='datos_avistamientos.html';">
-                <td> 2021-04-14 16:22 </td>
+            <tr>
+                <td> Comuna </td>
                 <td> Peñalolén </td>
-                <td> Lo Hermida </td>
-                <td> Jocelyn Symmonds </td>
-                <td> 1 </td>
-                <td> 1 </td>
             </tr>
 
             <!-- Third row -->
-            <tr onclick="location.href='datos_avistamientos.html';">
-                <td> 2021-04-13 15:22 </td>
-                <td> Macul </td>
-                <td> Santa Julia </td>
-                <td> Vegitto </td>
-                <td> 1 </td>
-                <td> 2 </td>
+            <tr>
+                <td> Sector </td>
+                <td> Lo Hermida </td>
             </tr>
 
             <!-- Fourth row -->
-            <tr onclick="location.href='datos_avistamientos.html';">
-                <td> 2021-04-13 11:56 </td>
-                <td> Providencia </td>
-                <td> Salvador </td>
-                <td> Luis Miguel </td>
-                <td> 2 </td>
-                <td> 2 </td>
+            <tr>
+                <td> Contacto </td>
+                <td> Jocelyn Symmonds - jocita.sym@yahoo.es </td>
             </tr>
 
             <!-- Fifth row -->
-            <tr onclick="location.href='datos_avistamientos.html';">
-                <td> 2021-04-10 19:12 </td>
-                <td> Angol </td>
-                <td> Villa Vieja </td>
-                <td> Felipe Camiroaga II </td>
-                <td> 1 </td>
-                <td> 3 </td>
+            <tr>
+                <td> Tipo </td>
+                <td> Insecto </td>
             </tr>
 
             <!-- Sixth row -->
-            <tr onclick="location.href='datos_avistamientos.html';">
-                <td> 2021-04-09 08:19 </td>
-                <td> Santiago </td>
-                <td> Plaza Italia </td>
-                <td> Don Francisco </td>
+            <tr>
+                <td> Estado </td>
+                <td> Vivo </td>
+            </tr>
+
+            <!-- Sixth row -->
+            <tr>
+                <td> Fotos </td>
                 <td> 1 </td>
-                <td> 2 </td>
             </tr>
         </table>
         <!-- We close the table -->
     </div>
+
+    <div class="jump"></div>
+
+    <div class="leyenda">
+        <img src="insecto.jfif" height="240" width="320" name="insecto_js" onclick="pop('insecto_js')">
+    </div>
 </div>
 
 <div class="jump"></div>
+
+
+<script>
+    function pop(name){
+        let imagen = document.getElementsByName(name)[0];
+        imagen.setAttribute('height', '600');
+        imagen.setAttribute('width', '800');
+        imagen.setAttribute('onclick', "closePop('insecto_js')");
+    }
+
+    function closePop(name){
+        let imagen = document.getElementsByName(name)[0];
+        imagen.setAttribute('height', '240');
+        imagen.setAttribute('width', '320');
+        imagen.setAttribute('onclick', "pop('insecto_js')");
+    }
+
+</script>
 
 </body>
 
