@@ -109,7 +109,7 @@
 <div class="subsubtitle"> Informar Avistamientos </div>
 
 <div class="info">
-    <form method="post" onsubmit="verificador()">
+    <form name="datos" method="post" action="data_enviada.html">
         <!-- We start a table to organize the info menu -->
         <table border="1px solid black" style="margin: 0 auto;">
             <!-- First row -->
@@ -151,9 +151,7 @@
             <!-- Third row -->
             <tr>
                 <td> Sector </td>
-                <td>
-                    <textarea name="sector" cols="100" rows="2"> </textarea>
-                </td>
+                <td> <input name="sector" size="200" placeholder="Ingrese el sector (Opcional)"> </td>
             </tr>
 
             <!-- Fourth row -->
@@ -180,7 +178,7 @@
                 <th rowspan="4"> Información <br> del <br> Avistamiento </th>
                 <td> Día / Hora </td>
                 <td>
-                    <input type="text" name="dia-hora" placeholder="Ingrese fecha (aaaa-mm-dd hh:mm)">
+                    <input type="text" name="dia-hora" size="20" placeholder="Ingrese fecha (aaaa-mm-dd hh:mm)">
                 </td>
             </tr>
 
@@ -237,7 +235,7 @@
 
         <div class="leyenda" text-align="center">
             <button name='avist' class="button" type="button" style="display:inline" onclick="agregar_avistamiento()"> Informar otro avistamiento en este sector </button>
-            <button name='submit' class="button" type="button" style="display:inline" onclick="submit()"> Enviar información de avistamiento </button>
+            <button name='submit' class="button" type="button" style="display:inline" onclick="verificador()"> Enviar información de avistamiento </button>
         </div>
     </form>
 </div>
@@ -280,10 +278,6 @@
         }
     }
 
-    function submit(){
-        verificador();
-    }
-
     function verificador(){
         let nombre = document.getElementsByName("nombre")[0].value;
         let email = document.getElementsByName("email")[0].value;
@@ -292,6 +286,8 @@
         let fechas = document.getElementsByName("dia-hora");
         let archivos = document.getElementsByName('foto');
         let aproved = true;
+
+        alert('entre lol');
 
         if ((nombre.length > 200) || (!(/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü \s]+$/.test(nombre)))) {
             alert("El nombre ingresado es incorrecto.");
@@ -313,22 +309,36 @@
             var fecha = fechas[i].value;
             let expr = /^\d{4}-((0[13578]|1[02])-(0[1-9]|[12]\d|3[01])|(0[469]|11)-(0[1-8]|[12]\d|30)|02-(0[1-9]|[1]\d|2[0-9])) ([01]\d|2[0123]):([0-4]\d|5[0-9])$/;
             if (!(expr.test(fecha))){
-                alert("La fecha ingresada es incorrecta")
+                alert("La fecha ingresada es incorrecta");
                 aproved = false;
             }
 
         if (archivos.length == 0) {
             alert("No ha ingresado ningún archivo")
             aproved = false;
-        } else {
-            for (let i = 0; i <= archivos.length - 1; i++) {
-                let archivo = archivos[i];
-                let extension = archivo.substring(archivo.lastIndexOf('.'), archivo.length).toLowerCase();
-                if (archivo.getAttribute('accept').split(',').indexOf(extension) < 0) {
-                    alert('Archivo ingresado es inválido. No se permite la extensión ' + extension);
-                    aproved = false;
-                }
-            }
+        }
+
+        //if (archivos.length !== 0){
+          //  for (let i = 0; i <= archivos.length - 1; i++) {
+            //    let archivo = archivos[i];
+              //  let extension = archivo.substring(archivo.lastIndexOf('.'), archivo.length).toLowerCase();
+                //if (archivo.getAttribute('accept').split(',').indexOf(extension) < 0) {
+                  //  alert('Archivo ingresado es inválido. No se permite la extensión ' + extension);
+                    //aproved = false;
+                //}
+            //}
+        //}
+
+        if (aproved == true){
+            ingresar();
+        }
+    }
+
+    function ingresar(){
+        let confirma = confirm("¿Está seguro que desea enviar esta información?");
+        if (confirma == true) {
+            let formulario = document.getElementsByName("datos")[0];
+            formulario.submit();
         }
     }
 
