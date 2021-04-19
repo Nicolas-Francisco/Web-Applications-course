@@ -178,7 +178,7 @@
                 <th rowspan="4"> Información <br> del <br> Avistamiento </th>
                 <td> Día / Hora </td>
                 <td>
-                    <input type="text" name="dia-hora" size="20" placeholder="Ingrese fecha (aaaa-mm-dd hh:mm)">
+                    <input type="text" name="dia-hora-avistamiento" size="20" placeholder="Ingrese fecha (aaaa-mm-dd hh:mm)">
                 </td>
             </tr>
 
@@ -186,7 +186,7 @@
             <tr>
                 <td> Tipo </td>
                 <td>
-                    <select required="required" name="tipo">
+                    <select required="required" name="tipo-avistamiento">
                         <option value="" disabled selected> Seleccione un tipo </option>
                         <option> Insecto </option>
                         <option> Arácnido </option>
@@ -200,7 +200,7 @@
             <tr>
                 <td> Estado </td>
                 <td>
-                    <select required="required" name="estado">
+                    <select required="required" name="estado-avistamiento">
                         <option value="" disabled selected> Seleccione un Estado </option>
                         <option> Vivo </option>
                         <option> Muerto </option>
@@ -217,12 +217,13 @@
                     <table>
                         <tr>
                             <td>
-                                <input style="display:inline" type="file" name="foto" accept=".jpg,.png"/>
+                                <input style="display:inline" type="file" name="foto-avistamiento" accept=".jpg,.png,.jpeg"/>
                             </td>
                             <td>
                                 <button name="boton_agregar" onclick="agregar_img(1)" type="button"> Agregar imágen </button>
                             </td>
                         </tr>
+
                         <div name="agregar_aqui"></div>
                     </table>
                 </td>
@@ -283,11 +284,9 @@
         let email = document.getElementsByName("email")[0].value;
         let celular = document.getElementsByName("celular")[0].value;
         let sector = document.getElementsByName("sector")[0].value;
-        let fechas = document.getElementsByName("dia-hora");
-        let archivos = document.getElementsByName('foto');
+        let fechas = document.getElementsByName("dia-hora-avistamiento");
+        let archivos = document.getElementsByName('foto-avistamiento');
         let aproved = true;
-
-        alert('entre lol');
 
         if ((nombre.length > 200) || (!(/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü \s]+$/.test(nombre)))) {
             alert("El nombre ingresado es incorrecto.");
@@ -305,29 +304,27 @@
             alert("El sector ingresado es incorrecto.");
             aproved = false;
         }
-        for (let i=0; i<=fechas.length - 1; i++)
+        for (let i=0; i<=fechas.length - 1; i++){
             var fecha = fechas[i].value;
             let expr = /^\d{4}-((0[13578]|1[02])-(0[1-9]|[12]\d|3[01])|(0[469]|11)-(0[1-8]|[12]\d|30)|02-(0[1-9]|[1]\d|2[0-9])) ([01]\d|2[0123]):([0-4]\d|5[0-9])$/;
             if (!(expr.test(fecha))){
                 alert("La fecha ingresada es incorrecta");
                 aproved = false;
             }
+        }
 
         if (archivos.length == 0) {
             alert("No ha ingresado ningún archivo")
             aproved = false;
         }
 
-        //if (archivos.length !== 0){
-          //  for (let i = 0; i <= archivos.length - 1; i++) {
-            //    let archivo = archivos[i];
-              //  let extension = archivo.substring(archivo.lastIndexOf('.'), archivo.length).toLowerCase();
-                //if (archivo.getAttribute('accept').split(',').indexOf(extension) < 0) {
-                  //  alert('Archivo ingresado es inválido. No se permite la extensión ' + extension);
-                    //aproved = false;
-                //}
-            //}
-        //}
+        for (let i = 1; i<=archivos.length; i++){
+            let foto = archivos[i];
+            if (foto == null){
+                alert("Falta ingresar un archivo");
+                aproved = false;
+            }
+        }
 
         if (aproved == true){
             ingresar();
@@ -349,7 +346,9 @@
                 imagen[imagen.length - 1].innerHTML = '<table>\n' +
                     '                        <tr>\n' +
                     '                            <td>\n' +
-                    '                                <input size="60" style="display:inline" type="file" name="foto" accept=".jpg,.png"/>\n' +
+                    '                                <input style="display:inline" type="file" name="foto-avistamiento" accept=".jpg,.png,.jpeg"/>\n' +
+                    '                            </td>\n' +
+                    '                            <td>\n' +
                     '                            </td>\n' +
                     '                        </tr>\n' +
                     '                        <div name="agregar_aqui"></div>\n' +
@@ -361,7 +360,9 @@
                 imagen[imagen.length - 1].innerHTML = '<table>\n' +
                     '                        <tr>\n' +
                     '                            <td>\n' +
-                    '                                <input size="60" style="display:inline" type="file" name="foto" accept=".jpg,.png"/>\n' +
+                    '                                <input style="display:inline" type="file" name="foto-avistamiento" accept=".jpg,.png,.jpeg"/>\n' +
+                    '                            </td>\n' +
+                    '                            <td>\n' +
                     '                            </td>\n' +
                     '                        </tr>\n' +
                     '                        <div name="agregar_aqui_img2"></div>\n' +
@@ -416,7 +417,7 @@
             '                    <table>\n' +
             '                        <tr>\n' +
             '                            <td>\n' +
-            '                                <input style="display:inline" type="file" name="foto" accept=".jpg,.png"/>\n' +
+            '                                <input style="display:inline" type="file" name="foto-avistamiento" accept=".jpg,.png"/>\n' +
             '                            </td>\n' +
             '                            <td>\n' +
             '                                <button name="boton_agregar" onclick="agregar_img(2)" type="button"> Agregar imágen </button>\n' +
