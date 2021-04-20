@@ -169,7 +169,11 @@
     <div class="jump"></div>
 
     <div class="leyenda">
-        <img src="insecto.jfif" height="240" width="320" id="insecto_js" alt="Insecto" onclick="pop('insecto_js')">
+        <img src="insecto.jfif" height="240" width="320" id="insecto_js" alt="Insecto">
+    </div>
+
+    <div class="leyenda">
+        <button class="button" type="button" id="insecto_js-button" onclick="pop('insecto_js', 'insecto_js-button')"> Agrandar Imagen </button>
     </div>
 </div>
 
@@ -177,18 +181,20 @@
 
 
 <script>
-    function pop(id){
-        let imagen = document.getElementById(id)[0];
+    function pop(id, id_button){
+        let imagen = document.getElementById(id);
+        let boton = document.getElementById(id_button);
         imagen.setAttribute('height', '600');
         imagen.setAttribute('width', '800');
-        imagen.setAttribute('onclick', "closePop('insecto_js')");
+        boton.setAttribute('onclick', "closePop('insecto_js', 'insecto_js-button')");
     }
 
-    function closePop(id){
-        let imagen = document.getElementById(id)[0];
+    function closePop(id, id_button){
+        let imagen = document.getElementById(id);
+        let boton = document.getElementById(id_button);
         imagen.setAttribute('height', '240');
         imagen.setAttribute('width', '320');
-        imagen.setAttribute('onclick', "pop('insecto_js')");
+        boton.setAttribute('onclick', "pop('insecto_js', 'insecto_js-button')");
     }
 
 </script>
