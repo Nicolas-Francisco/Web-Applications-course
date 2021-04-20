@@ -77,6 +77,15 @@
             padding: 5px;
             width: 90%;
         }
+        table {
+            margin: auto;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: center;
+            border: 1px solid black;
+        }
     </style>
     </head>
 
@@ -91,7 +100,7 @@
 
     <br>
 
-    <p align="center">
+    <p class="leyenda">
         <form method="post" action="informar.html" style="display:inline">
             <button class="button"> Informar avistamiento </button>
         </form>
@@ -108,15 +117,15 @@
 
 <div class="subsubtitle"> Estadísticas </div>
 
-<p align="center">
-    <img src="graph1.PNG" height="270" style="display:inline">
-    <img src="graph2.PNG" height="290" style="display:inline">
-    <img src="graph3.png" height="270" style="display:inline">
+<p class="leyenda">
+    <img src="graph1.PNG" height="270" alt="grafico 1" style="display:inline">
+    <img src="graph2.PNG" height="290" alt="grafico 2" style="display:inline">
+    <img src="graph3.png" height="270" alt="grafico 3" style="display:inline">
 <p>
 
 <div class="jump"></div>';
 
-<div class="leyenda" text-align="center">
+<div class="leyenda">
     <form method="post" action="portada.html">
         <button class="button"> Volver </button>
     </form>

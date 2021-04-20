@@ -77,6 +77,15 @@
             padding: 5px;
             width: 90%;
         }
+        table {
+            margin: auto;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: center;
+            border: 1px solid black;
+        }
     </style>
     </head>
 
@@ -91,7 +100,7 @@
 
     <br>
 
-    <p align="center">
+    <p class="leyenda">
         <form method="post" action="informar.html" style="display:inline">
             <button class="button"> Informar avistamiento </button>
         </form>
@@ -111,7 +120,7 @@
 <div class="info">
     <div class="leyenda">
         <!-- We start a table to organize the info menu -->
-        <table border="1px solid black" style="margin: 0 auto;">
+        <table class="table">
             <!-- First row -->
             <tr>
                 <th scope="col"> Fecha/Hora </th>

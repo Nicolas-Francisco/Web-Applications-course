@@ -77,6 +77,15 @@
             padding: 5px;
             width: 90%;
         }
+        table {
+            margin: auto;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: center;
+            border: 1px solid black;
+        }
     </style>
     </head>
 
@@ -91,7 +100,7 @@
 
     <br>
 
-    <p align="center">
+    <p class="leyenda">
         <form method="post" action="informar.html" style="display:inline">
             <button class="button"> Informar avistamiento </button>
         </form>
@@ -111,7 +120,7 @@
 <div class="info">
     <div class="leyenda">
         <!-- We start a table to organize the info menu -->
-        <table border="1px solid black" style="margin: 0 auto;">
+        <table class="table">
             <!-- First row -->
             <tr>
                 <td> Fecha/Hora </td>
@@ -160,7 +169,7 @@
     <div class="jump"></div>
 
     <div class="leyenda">
-        <img src="insecto.jfif" height="240" width="320" name="insecto_js" onclick="pop('insecto_js')">
+        <img src="insecto.jfif" height="240" width="320" id="insecto_js" alt="Insecto" onclick="pop('insecto_js')">
     </div>
 </div>
 
@@ -168,15 +177,15 @@
 
 
 <script>
-    function pop(name){
-        let imagen = document.getElementsByName(name)[0];
+    function pop(id){
+        let imagen = document.getElementById(id)[0];
         imagen.setAttribute('height', '600');
         imagen.setAttribute('width', '800');
         imagen.setAttribute('onclick', "closePop('insecto_js')");
     }
 
-    function closePop(name){
-        let imagen = document.getElementsByName(name)[0];
+    function closePop(id){
+        let imagen = document.getElementById(id)[0];
         imagen.setAttribute('height', '240');
         imagen.setAttribute('width', '320');
         imagen.setAttribute('onclick', "pop('insecto_js')");

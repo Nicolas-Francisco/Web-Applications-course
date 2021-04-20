@@ -77,6 +77,15 @@
             padding: 5px;
             width: 90%;
         }
+        table {
+            margin: auto;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: left;
+            border: 1px solid black;
+        }
     </style>
     </head>
 
@@ -91,7 +100,7 @@
 
     <br>
 
-    <p align="center">
+    <p class="leyenda">
         <form method="post" action="informar.html" style="display:inline">
             <button class="button"> Informar avistamiento </button>
         </form>
@@ -111,7 +120,7 @@
 <div class="info">
     <form name="datos" method="post" action="data_enviada.html">
         <!-- We start a table to organize the info menu -->
-        <table border="1px solid black" style="margin: 0 auto;">
+        <table class="table" id="table1">
             <!-- First row -->
             <tr>
                 <th rowspan="3"> Lugar </th>
@@ -175,7 +184,7 @@
 
             <!-- Seventh row -->
             <tr>
-                <th rowspan="4"> Información <br> del <br> Avistamiento </th>
+                <th rowspan="4" id="info-avist"> Información <br> del <br> Avistamiento </th>
                 <td> Día / Hora </td>
                 <td>
                     <input type="text" name="dia-hora-avistamiento" size="20" placeholder="Ingrese fecha (aaaa-mm-dd hh:mm)">
@@ -211,30 +220,21 @@
 
             <!-- Tenth row -->
             <tr>
-                <td> Foto </td>
+                <td rowspan="1" id="info-avist-foto"> Foto </td>
 
                 <td>
-                    <table>
-                        <tr>
-                            <td>
-                                <input style="display:inline" type="file" name="foto-avistamiento" accept=".jpg,.png,.jpeg"/>
-                            </td>
-                            <td>
-                                <button name="boton_agregar" onclick="agregar_img(1)" type="button"> Agregar imágen </button>
-                            </td>
-                        </tr>
-
-                        <div name="agregar_aqui"></div>
-                    </table>
+                    <input style="display:inline" type="file" name="foto-avistamiento" accept=".jpg,.png,.jpeg"/>
+                    <button name="boton_agregar" onclick="agregar_img(1)" type="button"> Agregar imágen </button>
                 </td>
             </tr>
+
         </table>
         <!-- We close the table -->
         <div class="jump"></div>
 
-        <div name="agregar_aqui_avistamiento"></div>
+        <div class="info" id="agregar_aqui_avistamiento"> </div>
 
-        <div class="leyenda" text-align="center">
+        <div class="leyenda">
             <button name='avist' class="button" type="button" style="display:inline" onclick="agregar_avistamiento()"> Informar otro avistamiento en este sector </button>
             <button name='submit' class="button" type="button" style="display:inline" onclick="verificador()"> Enviar información de avistamiento </button>
         </div>
@@ -318,11 +318,16 @@
             aproved = false;
         }
 
-        for (let i = 1; i<=archivos.length; i++){
+        for (let i = 0; i < archivos.length; i++){
             let foto = archivos[i];
-            if (foto == null){
+            if (foto.files.length == 0){
                 alert("Falta ingresar un archivo");
                 aproved = false;
+            } else {
+                if (!/^(gif|jpeg|jpg|png)*$/.test(foto.value)){
+                    alert("Archivo ingresado inválido");
+                    aproved = false;
+                }
             }
         }
 
@@ -341,44 +346,35 @@
 
     function agregar_img(num){
         if (num==1){
-            let imagen = document.getElementsByName("agregar_aqui");
-            if (imagen.length < 5){
-                imagen[imagen.length - 1].innerHTML = '<table>\n' +
-                    '                        <tr>\n' +
-                    '                            <td>\n' +
-                    '                                <input style="display:inline" type="file" name="foto-avistamiento" accept=".jpg,.png,.jpeg"/>\n' +
-                    '                            </td>\n' +
-                    '                            <td>\n' +
-                    '                            </td>\n' +
-                    '                        </tr>\n' +
-                    '                        <div name="agregar_aqui"></div>\n' +
-                    '                    </table>';
+            let tabla1 = document.getElementById("table1");
+            if (tabla1.rows.length < 14){
+                tabla1.insertRow(-1).innerHTML = '<tr> <td> <input style="display:inline" type="file" name="foto-avistamiento" accept=".jpg,.png,.jpeg"/> </tr>\n';
+                let row1 = parseInt(document.getElementById("info-avist").getAttribute("rowspan"));
+                let row2 = parseInt(document.getElementById("info-avist-foto").getAttribute("rowspan"));
+                document.getElementById("info-avist").setAttribute("rowspan",(row1+1).toString());
+                document.getElementById("info-avist-foto").setAttribute("rowspan",(row2+1).toString());
             }
         } else {
-            let imagen = document.getElementsByName("agregar_aqui_img2");
-            if (imagen.length < 5){
-                imagen[imagen.length - 1].innerHTML = '<table>\n' +
-                    '                        <tr>\n' +
-                    '                            <td>\n' +
-                    '                                <input style="display:inline" type="file" name="foto-avistamiento" accept=".jpg,.png,.jpeg"/>\n' +
-                    '                            </td>\n' +
-                    '                            <td>\n' +
-                    '                            </td>\n' +
-                    '                        </tr>\n' +
-                    '                        <div name="agregar_aqui_img2"></div>\n' +
-                    '                    </table>';
+            let tabla2 = document.getElementById("table2");
+            if (tabla2.rows.length < 8){
+                tabla2.insertRow(-1).innerHTML = '<tr> <td> <input style="display:inline" type="file" name="foto-avistamiento" accept=".jpg,.png,.jpeg"/> </tr>\n';
+                let row1 = parseInt(document.getElementById("info-avist-2").getAttribute("rowspan"));
+                let row2 = parseInt(document.getElementById("info-avist-2-foto").getAttribute("rowspan"));
+                document.getElementById("info-avist-2").setAttribute("rowspan",(row1+1).toString());
+                document.getElementById("info-avist-2-foto").setAttribute("rowspan",(row2+1).toString());
             }
         }
     }
 
     function agregar_avistamiento(){
-        let avist = document.getElementsByName("agregar_aqui_avistamiento")[0];
-        avist.innerHTML = '\t<table border="1px solid black" style="margin: 0 auto;">\n' +
+        let avist = document.getElementById("agregar_aqui_avistamiento");
+        avist.innerHTML = '<table class="table" id="table2">\n' +
+            '            <!-- Seventh row -->\n' +
             '            <tr>\n' +
-            '                <th rowspan="4"> Información <br> del <br> Avistamiento </th>\n' +
+            '                <th rowspan="4" id="info-avist-2"> Información <br> del <br> Avistamiento </th>\n' +
             '                <td> Día / Hora </td>\n' +
             '                <td>\n' +
-            '                    <input type="text" name="dia-hora" placeholder="Ingrese fecha (aaaa-mm-dd hh:mm)">\n' +
+            '                    <input type="text" name="dia-hora-avistamiento" size="20" placeholder="Ingrese fecha (aaaa-mm-dd hh:mm)">\n' +
             '                </td>\n' +
             '            </tr>\n' +
             '\n' +
@@ -386,7 +382,7 @@
             '            <tr>\n' +
             '                <td> Tipo </td>\n' +
             '                <td>\n' +
-            '                    <select required="required" name="tipo">\n' +
+            '                    <select required="required" name="tipo-avistamiento">\n' +
             '                        <option value="" disabled selected> Seleccione un tipo </option>\n' +
             '                        <option> Insecto </option>\n' +
             '                        <option> Arácnido </option>\n' +
@@ -400,7 +396,7 @@
             '            <tr>\n' +
             '                <td> Estado </td>\n' +
             '                <td>\n' +
-            '                    <select required="required" name="estado">\n' +
+            '                    <select required="required" name="estado-avistamiento">\n' +
             '                        <option value="" disabled selected> Seleccione un Estado </option>\n' +
             '                        <option> Vivo </option>\n' +
             '                        <option> Muerto </option>\n' +
@@ -411,25 +407,14 @@
             '\n' +
             '            <!-- Tenth row -->\n' +
             '            <tr>\n' +
-            '                <td> Foto </td>\n' +
+            '                <td rowspan="1" id="info-avist-2-foto"> Foto </td>\n' +
             '\n' +
             '                <td>\n' +
-            '                    <table>\n' +
-            '                        <tr>\n' +
-            '                            <td>\n' +
-            '                                <input style="display:inline" type="file" name="foto-avistamiento" accept=".jpg,.png"/>\n' +
-            '                            </td>\n' +
-            '                            <td>\n' +
-            '                                <button name="boton_agregar" onclick="agregar_img(2)" type="button"> Agregar imágen </button>\n' +
-            '                            </td>\n' +
-            '                        </tr>\n' +
-            '                        <div name="agregar_aqui_img2"></div>\n' +
-            '                    </table>\n' +
+            '                    <input style="display:inline" type="file" name="foto-avistamiento" accept=".jpg,.png,.jpeg"/>\n' +
+            '                    <button name="boton_agregar" onclick="agregar_img(2)" type="button"> Agregar imágen </button>\n' +
             '                </td>\n' +
             '            </tr>\n' +
-            '        </table>\n' +
-            '        <!-- We close the table -->\n' +
-            '        <div class="jump"></div>';
+            '        </table>';
 
         let boton_agregar_avist = document.getElementsByName('avist')[0];
         boton_agregar_avist.setAttribute('style', 'display: none');
