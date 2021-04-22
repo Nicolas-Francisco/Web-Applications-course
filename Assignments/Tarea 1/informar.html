@@ -118,7 +118,7 @@
 <div class="subsubtitle"> Informar Avistamientos </div>
 
 <div class="info">
-    <form name="datos" method="post" action="data_enviada.html">
+    <form id="datos" name="datos" action="data_enviada.html">
         <!-- We start a table to organize the info menu -->
         <table class="table" id="table1">
             <!-- First row -->
@@ -197,10 +197,10 @@
                 <td>
                     <select required="required" name="tipo-avistamiento">
                         <option value="" disabled selected> Seleccione un tipo </option>
-                        <option> Insecto </option>
-                        <option> Arácnido </option>
-                        <option> Miriápodo </option>
-                        <option> No sé </option>
+                        <option value="I"> Insecto </option>
+                        <option value="A"> Arácnido </option>
+                        <option value="M"> Miriápodo </option>
+                        <option value="N"> No sé </option>
                     </select>
                 </td>
             </tr>
@@ -211,9 +211,9 @@
                 <td>
                     <select required="required" name="estado-avistamiento">
                         <option value="" disabled selected> Seleccione un Estado </option>
-                        <option> Vivo </option>
-                        <option> Muerto </option>
-                        <option> No sé </option>
+                        <option value="V"> Vivo </option>
+                        <option value="M"> Muerto </option>
+                        <option value="N"> No sé </option>
                     </select>
                 </td>
             </tr>
@@ -235,8 +235,8 @@
         <div class="info" id="agregar_aqui_avistamiento"> </div>
 
         <div class="leyenda">
-            <button name='avist' class="button" type="button" style="display:inline" onclick="agregar_avistamiento()"> Informar otro avistamiento en este sector </button>
-            <button name='submit' class="button" type="button" style="display:inline" onclick="verificador()"> Enviar información de avistamiento </button>
+            <button class="button" type="button" style="display:inline" onclick="agregar_avistamiento()"> Informar otro avistamiento en este sector </button>
+            <button class="button" type="button" style="display:inline" onclick="verificador()"> Enviar información de avistamiento </button>
         </div>
     </form>
 </div>
@@ -313,21 +313,36 @@
             }
         }
 
-        if (archivos.length == 0) {
-            alert("No ha ingresado ningún archivo")
-            aproved = false;
-        }
-
         for (let i = 0; i < archivos.length; i++){
             let foto = archivos[i];
             if (foto.files.length == 0){
                 alert("Falta ingresar un archivo");
                 aproved = false;
-            } else {
-                if (!/^(gif|jpeg|jpg|png)*$/.test(foto.value)){
+            }
+            else if (!/(.jpg|.jpeg|.png)$/.test(foto.value)){
                     alert("Archivo ingresado inválido");
                     aproved = false;
                 }
+        }
+
+        if (document.getElementsByName('region')[0].value == ""){
+            alert("No se ha ingresado una region");
+            aproved = false;
+        }
+
+        if (document.getElementsByName('comuna')[0].value == ""){
+            alert("No se ha ingresado una comuna");
+            aproved = false;
+        }
+
+        for (let i=0; i<document.getElementsByName("tipo-avistamiento").length; i++){
+            if (document.getElementsByName('tipo-avistamiento')[i].value == ""){
+                alert("No se ha ingresado un tipo de bicho");
+                aproved = false;
+            }
+            if (document.getElementsByName('estado-avistamiento')[i].value == ""){
+                alert("No se ha ingresado un estado del bicho");
+                aproved = false;
             }
         }
 
@@ -339,7 +354,7 @@
     function ingresar(){
         let confirma = confirm("¿Está seguro que desea enviar esta información?");
         if (confirma == true) {
-            let formulario = document.getElementsByName("datos")[0];
+            let formulario = document.getElementById("datos");
             formulario.submit();
         }
     }
