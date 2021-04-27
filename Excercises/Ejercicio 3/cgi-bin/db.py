@@ -16,7 +16,7 @@ class Doctor:
 
     def save_doctor(self, data):
         sql = '''
-                    INSERT INTO doctors (nombre, experiencia, especialidad, email , celular) 
+                    INSERT INTO medico (nombre, experiencia, especialidad, email , celular) 
                     VALUES (%s, %s, %s, %s, %s)
                 '''
         self.cursor.execute(sql, data)  # ejecuto la consulta
@@ -24,7 +24,7 @@ class Doctor:
 
     def get_doctors(self):
         sql = f"""
-            SELECT * FROM {doctors}
+            SELECT * FROM medico
         """
         self.cursor.execute(sql)
         return self.cursor.fetchall() # retornamos la data

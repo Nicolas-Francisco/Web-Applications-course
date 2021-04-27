@@ -2,20 +2,23 @@
 # -*- coding: utf-8 -*-
 
 import cgi
-from save_data import HackBoxDatabase
+import cgitb;
+
+cgitb.enable()
+from db import Doctor
 
 print("Content-type: text/html\r\n\r\n")
 
 utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 
 form = cgi.FieldStorage()
-hbdb = HackBoxDatabase("root", "")
+doctordb = Doctor("localhost", "root", "", "ejercicio3")
 
 data = (
     form['nombre-medico'].value, form['experiencia-medico'].value, form['especialidad-medico'].value,
     form['email-medico'].value, form['celular-medico'].value
 )
-hbdb.save_data(data)
+doctordb.save_doctor(data)
 
 html = """
 <!DOCTYPE html>
@@ -32,9 +35,8 @@ html = """
 
 <div>
     <!-- Body of page -->
-    <h1>Datos de médico ingresados correctamente</h1>
+    <h1> Datos de medico ingresados correctamente </h1>
 </div>
-
 
 </body>
 
