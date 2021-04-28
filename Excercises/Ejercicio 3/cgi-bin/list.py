@@ -18,7 +18,9 @@ head = """
     <link rel="stylesheet" type="text/css" media="screen"  href="style.css" />    <!-- CSS: -->
     <script src="jquery-3.5.0.js"></script>  <!-- Importing JQUERY  -->
 </head>
+"""
 
+body1 = """
 <body>
 <div>
     <!-- Body of page -->
@@ -34,22 +36,39 @@ head = """
         <th>Celular </th>
     </tr>
 """
-print(head)
 
-for d in data:
-    row = f'''
-            <tr>
-                <th>{str(d[1])}</th>
-                <th>{str(d[2])}</th>
-                <th>{str(d[3])}</th>
-                <th>{str(d[5])}</th>
-                <th>{str(d[6])}</th>
-            </tr>
-        '''
-    print(row)
+body2 = """
+<body>
+<div>
+    <!-- Body of page -->
+    <h1> Datos de medicos </h1>
+    
+    <h2> No hay médicos registrados </h2>
+</div>
+<div>
+"""
+
+if (len(data) != 0):
+    print(body1)
+    for d in data:
+        row = f'''
+                <tr>
+                    <th>{str(d[1])}</th>
+                    <th>{str(d[2])}</th>
+                    <th>{str(d[3])}</th>
+                    <th>{str(d[5])}</th>
+                    <th>{str(d[6])}</th>
+                </tr>
+            '''
+        print(row)
+
+    print("""
+    </table>
+    """)
+else:
+    print(body2)
 
 footer = f"""
-    </table>
 </div>
 
 </body>
