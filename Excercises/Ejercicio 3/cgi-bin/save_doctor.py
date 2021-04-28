@@ -38,6 +38,8 @@ html = """
     <h1> Datos de medico ingresados correctamente </h1>
 </div>
 
+
+
 </body>
 
 """
