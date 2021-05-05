@@ -16,7 +16,7 @@ doctordb = Doctor("localhost", "root", "", "ejercicio4")
 
 data = (
     form['nombre-medico'].value, form['experiencia-medico'].value, form['especialidad-medico'].value,
-     form['email-medico'].value, form['celular-medico'].value,form['foto-medico']
+    form['email-medico'].value, form['celular-medico'].value, form['foto-medico']
 )
 
 html1 = """

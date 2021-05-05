@@ -59,7 +59,7 @@ class Doctor:
 
         # guardamos el resto en la db
         sql = '''
-            INSERT INTO medico (nombre, experiencia, especialidad,  email, celular,foto) 
+            INSERT INTO medico (nombre, experiencia, especialidad,  email, celular, foto) 
             VALUES (%s, %s, %s, %s, %s, %s)
                         '''
         self.cursor.execute(sql, (*data[0:5], id_archivo))  # ejecuto la consulta
@@ -69,8 +69,8 @@ class Doctor:
 
     def get_doctors(self):
         sql = f"""
-            SELECT medico.nombre, medico.experiencia, medico.especialidad, medico.foto, medico.email, medico.celular 
-            FROM medico, archivo WHERE medico.foto == archivo.id
+            SELECT medico.nombre, medico.experiencia, medico.especialidad, medico.email, medico.celular, archivo.path
+            FROM medico, archivo WHERE medico.foto = archivo.id
         """
         self.cursor.execute(sql)
         return self.cursor.fetchall() # retornamos la data

@@ -8,23 +8,21 @@ print("Content-type:text/html\r\n\r\n")
 doctordb = Doctor("localhost", "root", "", "ejercicio4")
 data = doctordb.get_doctors()
 
-head = """
+head = '''
 <!DOCTYPE html>
-<html lang="es">
+<!--suppress ALL -->
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8" /> <!-- Declaring enconding as UTF 8-->
-    <title> Ejercicio 4 </title> <!-- Title in pestaña -->
-    <link rel="stylesheet" type="text/css" media="screen"  href="style.css" />    <!-- CSS: -->
-    <script src="jquery-3.5.0.js"></script>  <!-- Importing JQUERY  -->
+    <meta charset="UTF-8">
+    <title>ejercicio4</title>
+
 </head>
-"""
+'''
 
 body1 = """
 <body>
 <div>
     <!-- Body of page -->
-    <h1> Datos de medicos </h1>
+    <h1> Datos de medicos</h1>
 </div>
 <div>
     <table>
@@ -54,12 +52,12 @@ if (len(data) != 0):
     for d in data:
         row = f'''
                 <tr>
+                    <th>{str(d[0])}</th>
                     <th>{str(d[1])}</th>
                     <th>{str(d[2])}</th>
                     <th>{str(d[3])}</th>
-                    <th>{str(d[5])}</th>
-                    <th>{str(d[6])}</th>
                     <th>{str(d[4])}</th>
+                    <th><img class="size" src=../media/{str(d[5])} width="120px" height="120px"></th>
                 </tr>
             '''
         print(row)
@@ -74,6 +72,6 @@ footer = f"""
 </div>
 
 </body>
-
 """
+
 print(footer)

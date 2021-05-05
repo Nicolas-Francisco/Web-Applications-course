@@ -34,6 +34,11 @@ td {
   text-align: center;
 }
 
+size {
+  width: 120px;
+  height: 120px;
+}
+
 div {
   padding: 5px 20px;
 }

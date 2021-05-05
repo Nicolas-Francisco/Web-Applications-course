@@ -15,8 +15,8 @@ cursor = db.cursor()
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS `ejercicio4`.`archivo` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(100) NOT NULL,
-  `path` VARCHAR (100) NOT NULL,
+  `nombre` VARCHAR(256) NOT NULL,
+  `path` VARCHAR (256) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 ''')
