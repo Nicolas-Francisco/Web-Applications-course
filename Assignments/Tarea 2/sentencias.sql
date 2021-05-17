@@ -1,7 +1,7 @@
 -- insertar avistamiento:
-INSERT INTO avistamiento (comuna_id, sector, nombre, email, celular) VALUES (?, ?, ?, ?, ?)
+INSERT INTO avistamiento (comuna_id, dia_hora, sector, nombre, email, celular) VALUES (?, ?, ?, ?, ?, ?)
 -- ejemplo: 
---INSERT INTO avistamiento (comuna_id, sector, nombre, email, celular) VALUES (130606, 'sector alto', 'Observador Perez', 'observador@ejemplo.cl', '+56955555555');
+--INSERT INTO avistamiento (comuna_id, dia_hora, sector, nombre, email, celular) VALUES (130606, '2021-05-03 12:46:11', 'sector alto', 'Observador Perez', 'observador@ejemplo.cl', '+56955555555');
 
 -- insertar detalle_avistamiento:
 INSERT INTO detalle_avistamiento (dia_hora, tipo, estado, avistamiento_id) VALUES (?, ?, ?, ?, ?);
@@ -14,7 +14,7 @@ INSERT INTO foto (ruta_archivo, nombre_archivo, detalle_avistamiento_id) VALUES 
 -- INSERT INTO foto (ruta_archivo, nombre_archivo, detalle_avistamiento_id ) VALUES ('/Users/jourzua/personal/DCC/51t/python/archivos/', 'foto-insecto.jpg', 1);
 
 -- seleccionar avistamientos:
-SELECT id, comuna_id, sector, nombre, email, celular FROM avistamiento
+SELECT id, comuna_id, dia_hora, sector, nombre, email, celular FROM avistamiento
 -- seleccionar ultimos 5 avistamientos ordenados por fecha descendente:
 SELECT DA.dia_hora, CO.nombre, AV.sector, DA.tipo FROM avistamiento AV, detalle_avistamiento DA, comuna CO WHERE DA.avistamiento_id = AV.id AND AV.comuna_id=CO.id ORDER BY DA.dia_hora DESC LIMIT 5
 
