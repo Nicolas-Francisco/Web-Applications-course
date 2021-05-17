@@ -20,7 +20,7 @@ class Avistamiento
 
     def save_avistamiento(self, data):
         # procesar y guardar el archivo
-        fileobj = data[5]
+        fileobj = data[10]
         filename = fileobj.filename
 
         if not filename:
@@ -38,30 +38,21 @@ class Avistamiento
         hash_archivo = str(total) + hashlib.sha256(filename.encode()).hexdigest()[0:30]
 
         # guardar el archivo
-        file_path = 'media/' + hash_archivo
-        open(file_path, 'wb').write(fileobj.file.read())
+        # file_path = 'media/' + hash_archivo
+        # open(file_path, 'wb').write(fileobj.file.read())
 
-        # verificamos el tipo, si no es valido lo borramos de la db
-        tipo = filetype.guess(file_path)
-        if (tipo.mime != 'image/png') and (tipo.mime != 'image/jpg') and (tipo.mime != 'image/jpeg'):
-            os.remove(file_path)
-            return -1
+        # guardar datos en la base de datos
 
-        # guardamos la imagen en la db
-        sql = """
-            INSERT INTO 
-            VALUES 
-        """
         self.cursor.execute(sql, (filename, hash_archivo))
         self.db.commit()  # id
         id_archivo = self.cursor.getlastrowid()
 
         # guardamos el resto en la db
-        sql = '''
-            INSERT INTO  
-            VALUES 
-                        '''
-        self.cursor.execute(sql, (*data[0:5], id_archivo))  # ejecuto la consulta
+        sql = """
+                INSERT INTO avistamiento (comuna_id, dia_hora, sector, nombre, email, celular) 
+                VALUES (%s, %s, %s, %s, %s, %s)
+                """
+        self.cursor.execute(sql, (*data[0:10], id_archivo))  # ejecuto la consulta
         self.db.commit()  # modifico la base de datos
 
         return 1

@@ -159,18 +159,27 @@ print(head)
 print(body1)
 print(body2)
 
-for d in data:
+if len(data) == 0:
     row = f'''
-    <tr>
-    <th>{str(d[0])}</th>
-    <th>{str(d[1])}</th>
-    <th>{str(d[2])}</th>
-    <th>{str(d[3])}</th>
-    <th>{str(d[4])}</th>
-    <th><img class="size" src=../media/{str(d[5])} width="120px" height="120px"></th>
-    </tr>
-    '''
+        <tr>
+        <th colspan="5"> Sin datos> </th>
+        </tr>
+        '''
     print(row)
+
+else:
+    for d in data:
+        row = f'''
+        <tr>
+        <th>{str(d[0])}</th>
+        <th>{str(d[1])}</th>
+        <th>{str(d[2])}</th>
+        <th>{str(d[3])}</th>
+        <th>{str(d[4])}</th>
+        <th><img class="size" src=../media/{str(d[5])} width="120px" height="120px"></th>
+        </tr>
+        '''
+        print(row)
 
 foot = '''
 </table>
