@@ -103,7 +103,7 @@ head = '''
     </head> 
     '''
 
-body = '''
+body1 = '''
 <!-- RegistroBichos body -->
 <body>
 
@@ -119,7 +119,7 @@ body = '''
         <form method="post" action="informar.html" style="display:inline">
             <button class="button"> Informar avistamiento </button>
         </form>
-        <form method="post" action="avistamientos.html" style="display:inline">
+        <form method="post" action="Listado.py?pag={0}" style="display:inline">
             <button class="button" > Registro de Avistamientos </button>
         </form>
         <form method="post" action="stats.html" style="display:inline">
@@ -131,7 +131,9 @@ body = '''
 <div class="jump"></div>
 
 <div class="subsubtitle"> Últimos avistamientos </div>
+'''
 
+body2 = '''
 <div class="info">
     <div class="leyenda">
         <!-- We start a table to organize the info menu -->
@@ -144,52 +146,36 @@ body = '''
                 <th scope="col"> Tipo </th>
                 <th scope="col"> Foto </th>
             </tr>
+'''
 
-            <!-- Second row -->
-            <tr>
-                <td> 2021-04-14 16:22 </td>
-                <td> Peñalolén </td>
-                <td> Lo Hermida </td>
-                <td> Insecto </td>
-                <td> <img src="img/polilla.jpg" alt="" width="200"> </td>
-            </tr>
+print(head)
+print(body1)
+print(body2)
 
-            <!-- Third row -->
-            <tr>
-                <td> 2021-04-13 12:45 </td>
-                <td> Ñuñoa </td>
-                <td> Rosita Renard </td>
-                <td> Arácnido </td>
-                <td> <img src="img/tigre.jpg" alt="" width="200"> </td>
-            </tr>
+if len(data) == 0:
+    row = f'''
+        <tr>
+        <th colspan="5"> Sin datos> </th>
+        </tr>
+        '''
+    print(row)
 
-            <!-- Fourth row -->
-            <tr>
-                <td> 2021-04-11 12:37 </td>
-                <td> Peñalolén </td>
-                <td> Alto Peñalolén </td>
-                <td> Arácnido </td>
-                <td> <img src="img/tarantula.jpg" alt="" width="200"> </td>
-            </tr>
+else:
+    for d in data:
+        row = f'''
+        <tr>
+        <th>{str(d[0])}</th>
+        <th>{str(d[1])}</th>
+        <th>{str(d[2])}</th>
+        <th>{str(d[3])}</th>
+        <th>{str(d[4])}</th>
+        <th><img class="size" src=../media/{str(d[5])} width="120px" height="120px"></th>
+        </tr>
+        '''
+        print(row)
 
-            <!-- Fifth row -->
-            <tr>
-                <td> 2021-04-09 19:56 </td>
-                <td> Angol </td>
-                <td> Villa vieja </td>
-                <td> Miriápodo </td>
-                <td> <img src="img/cienpies.jpg" alt="" width="200"> </td>
-            </tr>
-
-            <!-- Sixth row -->
-            <tr>
-                <td> 2021-04-03 10:17 </td>
-                <td> Valparaiso </td>
-                <td> Villa Alemana </td>
-                <td> Insecto </td>
-                <td> <img src="img/chinita.jpg" alt="" width="200"> </td>
-            </tr>
-        </table>
+foot = '''
+</table>
         <!-- We close the table -->
     </div>
 </div>
@@ -200,3 +186,5 @@ body = '''
 
 </html>
 '''
+
+print(foot)
