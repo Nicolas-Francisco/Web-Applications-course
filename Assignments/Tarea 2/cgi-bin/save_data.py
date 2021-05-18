@@ -5,7 +5,9 @@ import cgi
 import cgitb;
 
 cgitb.enable()
+
 import db
+import datetime
 
 print("Content-type: text/html\r\n\r\n")
 
@@ -14,12 +16,52 @@ utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 form = cgi.FieldStorage()
 database = db.Avistamiento("localhost", "root", "", "tarea2")
 
-data = (
-    form['region'].value, form['comuna'].value, form['sector'].value,
-    form['nombre'].value, form['email'].value, form['celular'],
-    form['dia-hora-avistamiento'], form['tipo-avistamiento'],
-    form['estado-avistamiento'], form['foto-avistamiento']
-)
+fotos = []
+hayfotos = False
+listavacia = True
+list = []
+
+for i in form.list:
+    if i.name == 'foto-avistamiento':
+        hayfotos = True
+    else:
+        hayfotos = False
+
+    if hayfotos:
+        list.append(i)
+        listavacia = False
+    else:
+        if not listavacia:
+            fotos.append(list)
+            list = []
+            listavacia = True
+
+now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+data = []
+if not isinstance(form["tipo-avistamiento"], list):  # Si no hay una lista de elementos de tipo
+    # Entonces nos informan un solo avistamiento
+    datos = (
+        now, form['region'].value, form['comuna'].value, form['sector'].value,
+        form['nombre'].value, form['email'].value, form['celular'],
+        form['dia-hora-avistamiento'], form['tipo-avistamiento'],
+        form['estado-avistamiento'], fotos
+    )
+    data.append(datos)
+else:
+    # Si no, me entregaron más elementos
+    datosbase = (
+        now, form['region'].value, form['comuna'].value, form['sector'].value,
+        form['nombre'].value, form['email'].value, form['celular']
+    )
+    data.append(datosbase)
+
+    for i in range(0, len(form["tipo-avistamiento"])):
+        datoslista = (
+            form['dia-hora-avistamiento'][i], form['tipo-avistamiento'][i],
+            form['estado-avistamiento'][i], fotos[i]
+        )
+        data.append(datoslista)
 
 html1 = """
 <!DOCTYPE html>
