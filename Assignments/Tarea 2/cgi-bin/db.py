@@ -80,57 +80,68 @@ class Avistamiento:
                         "V": "Vivo",
                         "M": "Muerto"}
 
+        ids_detalle = []
+        # Si la cantidad de avistamientos registrados es solo uno
+        # Entonces tomamos los datos de la única lista enviada
         if len(data) == 1:
             dias_avistamiento = datosbase[7]
             tipo_avistamiento = datosbase[8]
             estado_avistamiento = datosbase[9]
 
-            ids_detalle = []
-            
-        else:
-
-        if isinstance(dias_avistamiento, list):
-            for i in range(len(dias_avistamiento)):
-                dia = dias_avistamiento[i].value
-                tipo = parse_tipo[tipo_avistamiento[i].value]
-                estado = parse_estado[estado_avistamiento[i].value]
-                sql = """
-                         INSERT INTO detalle_avistamiento (dia_hora, tipo, estado, avistamiento_id) 
-                         VALUES (%s, %s, %s, %s);
-                                                                    """
-                self.cursor.execute(sql, (dia, tipo, estado, id_avistamiento))
-                self.db.commit()
-                ids_detalle.append(self.cursor.getlastrowid())
-
-        if not isinstance(dias_avistamiento, list):
             dia = dias_avistamiento.value
             tipo = parse_tipo[tipo_avistamiento.value]
             estado = parse_estado[estado_avistamiento.value]
             sql = """
-                    INSERT INTO detalle_avistamiento (dia_hora, tipo, estado, avistamiento_id) 
-                    VALUES (%s, %s, %s, %s);
-                                                                                """
+            INSERT INTO detalle_avistamiento (dia_hora, tipo, estado, avistamiento_id) 
+            VALUES (%s, %s, %s, %s);
+            """
             self.cursor.execute(sql, (dia, tipo, estado, id_avistamiento))
             self.db.commit()
             ids_detalle.append(self.cursor.getlastrowid())
 
-        fotos = datosObli[7]
-        ruta= datosObli[8]
+            fotos = datosbase[10]
+
+        # Si no, entonces tenemos más listas con más datos.
+        else:
+            fotos = []
+
+            for i in range(1, len(data)):
+                dia = data[i][0].value
+                tipo = parse_tipo[data[i][1].value]
+                estado = parse_estado[data[i][2].value]
+                sql = """
+                INSERT INTO detalle_avistamiento (dia_hora, tipo, estado, avistamiento_id) 
+                VALUES (%s, %s, %s, %s);
+                """
+                self.cursor.execute(sql, (dia, tipo, estado, id_avistamiento))
+                self.db.commit()
+                ids_detalle.append(self.cursor.getlastrowid())
+
+                fotos.append(data[i][3])
 
         for i in range(len(fotos)):
             for j in range(len(fotos[i])):
                 fileobj = fotos[i][j]
                 filename = fileobj.filename
                 id_detalle = ids_detalle[i]
-                hash_archivo=ruta[i][j]
+
+                # calculamos cuantos elementos existen y actualizamos el hash
+                sql = "SELECT COUNT(id) FROM foto"
+                self.cursor.execute(sql)
+                total = self.cursor.fetchall()[0][0] + 1
+                hash_archivo = str(total) + hashlib.sha256(filename.encode()).hexdigest()[0:30]
+
+                # guardar el archivo
+                file_path = 'media/' + hash_archivo
+                open(file_path, 'wb').write(fileobj.file.read())
 
                 sql = """
-                             INSERT INTO foto (ruta_archivo,nombre_archivo,detalle_avistamiento_id )
-                                VALUES (%s, %s,%s)
-                              """
+                INSERT INTO foto (ruta_archivo, nombre_archivo, detalle_avistamiento_id)
+                VALUES (%s, %s, %s)
+                """
                 self.cursor.execute(sql, (hash_archivo, filename, id_detalle))
                 self.db.commit()  # id
-        return
+        return 1
 
     def get_avistamientos(self, pag=0):
         sql = ''' 
