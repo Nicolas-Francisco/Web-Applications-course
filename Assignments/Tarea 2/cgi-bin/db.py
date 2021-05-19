@@ -119,6 +119,8 @@ class Avistamiento:
 
                 fotos.append(data[i][3])
 
+        # Agregamos todas las fotos subidas
+        print(ids_detalle)
         for i in range(len(fotos)):
             for j in range(len(fotos[i])):
                 fileobj = fotos[i][j]
@@ -144,10 +146,10 @@ class Avistamiento:
         return 1
 
     def get_avistamientos(self, pag=0):
-        sql = ''' 
-                SELECT id, comuna_id, dia_hora, sector, nombre, email, celular
-                FROM avistamiento
-                '''
+        sql = '''
+        SELECT id, comuna_id, dia_hora, sector, nombre, email, celular
+        FROM avistamiento
+        '''
         self.cursor.execute(sql)
         data = self.cursor.fetchall()
 
@@ -155,11 +157,10 @@ class Avistamiento:
         count = []
         for id in ids_avistamientos:
             sql = ''' 
-                    SELECT COUNT(*)
-                    FROM detalle_avistamiento
-                    WHERE avistamiento_id = {id}
-                            
-                            '''
+            SELECT COUNT(*)
+            FROM detalle_avistamiento
+            WHERE avistamiento_id = {id}
+            '''
             self.cursor.execute(sql)
             cantidad = self.cursor.fetchall()[0][0]
             count.append(cantidad)
@@ -168,11 +169,10 @@ class Avistamiento:
         comunas = []
         for id in ids_comunas:
             sql = ''' 
-                            SELECT nombre
-                            FROM 'comuna'
-                            WHERE 'id' = {id}
-
-                                    '''
+            SELECT nombre
+            FROM 'comuna'
+            WHERE 'id' = {id}
+            '''
             self.cursor.execute(sql)
             comuna = self.cursor.fetchall()[0][0]
             comunas.append(comuna)
@@ -180,4 +180,5 @@ class Avistamiento:
         elementos = pag*5
         data = (data[elementos:elementos + 5], count[elementos:elementos + 5],
                 comunas[elementos:elementos + 5], len(data))
+
         return data

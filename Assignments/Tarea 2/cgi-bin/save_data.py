@@ -7,7 +7,7 @@ import cgitb;
 cgitb.enable()
 
 import db
-import datetime
+from datetime import datetime
 
 print("Content-type: text/html\r\n\r\n")
 
@@ -19,7 +19,7 @@ database = db.Avistamiento("localhost", "root", "", "tarea2")
 fotos = []
 hayfotos = False
 listavacia = True
-list = []
+lista = []
 
 for i in form.list:
     if i.name == 'foto-avistamiento':
@@ -28,12 +28,12 @@ for i in form.list:
         hayfotos = False
 
     if hayfotos:
-        list.append(i)
+        lista.append(i)
         listavacia = False
     else:
         if not listavacia:
-            fotos.append(list)
-            list = []
+            fotos.append(lista)
+            lista = []
             listavacia = True
 
 now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -41,9 +41,21 @@ now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 data = []
 if not isinstance(form["tipo-avistamiento"], list):  # Si no hay una lista de elementos de tipo
     # Entonces nos informan un solo avistamiento
+
+    print(form.keys())
+
+    if 'sector' not in form:
+        sector = ""
+    else:
+        sector = form['sector'].value
+    if 'celular' not in form:
+        celular = ""
+    else:
+        celular = form['celular'].value
+
     datos = (
-        now, form['region'].value, form['comuna'].value, form['sector'].value,
-        form['nombre'].value, form['email'].value, form['celular'],
+        now, form['region'].value, form['comuna'].value, sector,
+        form['nombre'].value, form['email'].value, celular,
         form['dia-hora-avistamiento'], form['tipo-avistamiento'],
         form['estado-avistamiento'], fotos
     )
