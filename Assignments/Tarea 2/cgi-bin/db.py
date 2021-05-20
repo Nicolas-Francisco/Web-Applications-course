@@ -120,7 +120,6 @@ class Avistamiento:
                 fotos.append(data[i][3])
 
         # Agregamos todas las fotos subidas
-        print(ids_detalle)
         for i in range(len(fotos)):
             for j in range(len(fotos[i])):
                 fileobj = fotos[i][j]
@@ -133,6 +132,7 @@ class Avistamiento:
                 total = self.cursor.fetchall()[0][0] + 1
                 hash_archivo = str(total) + hashlib.sha256(filename.encode()).hexdigest()[0:30]
 
+                print("voy a guardar la foto yey")
                 # guardar el archivo
                 file_path = 'media/' + hash_archivo
                 open(file_path, 'wb').write(fileobj.file.read())

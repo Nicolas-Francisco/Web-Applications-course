@@ -19,22 +19,27 @@ database = db.Avistamiento("localhost", "root", "", "tarea2")
 fotos = []
 hayfotos = False
 listavacia = True
-lista = []
+listatemporal = []
 
 for i in form.list:
+    # Si el nombre del form es de una foto, entonces hay una foto
     if i.name == 'foto-avistamiento':
         hayfotos = True
     else:
         hayfotos = False
 
+    # Si hay una foto, entonces lo guardamos temporalmente
     if hayfotos:
-        lista.append(i)
+        listatemporal.append(i)
         listavacia = False
-    else:
-        if not listavacia:
-            fotos.append(lista)
-            lista = []
-            listavacia = True
+
+    # Si ya no hay más fotos disponibles de un avistamiento, o llegué al final
+    if (((not hayfotos) and (not listavacia))
+            or (i == form.list[len(form.list) - 1])):
+        # Guardo la lista temporal de fotos a la lista de fotos
+        fotos.append(listatemporal)
+        listatemporal = []
+        listavacia = True
 
 now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
