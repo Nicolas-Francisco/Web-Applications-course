@@ -21,7 +21,7 @@ class Avistamiento:
     def get_last_five_avistamientos(self):
         sql = """
         SELECT DA.dia_hora, CO.nombre, AV.sector, DA.tipo
-        FROM avistamiento AV, detalle_avistamiento DA, comuna CO 
+        FROM avistamiento AV, detalle_avistamiento DA, comuna CO
         WHERE DA.avistamiento_id = AV.id 
         AND AV.comuna_id=CO.id 
         ORDER BY DA.dia_hora 
@@ -31,6 +31,13 @@ class Avistamiento:
         data = self.cursor.fetchall()
 
         return data
+
+    def get_five_last_img(self, id):
+        sql = f"""
+        SELECT ruta_archivo FROM foto where detalle_avistamiento_id={id}
+        """
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()  # retornamos la imagen
 
     def save_avistamiento(self, data):
         datosbase = data[0]
@@ -140,13 +147,11 @@ class Avistamiento:
                 filename = fileobj.filename
                 id_detalle = ids_detalle[i]
 
-                '''
                 if not filename:
                     return -1
                 size = os.fstat(fileobj.file.fileno()).st_size
                 if size > MAX_FILE_SIZE:
                     return -1
-                '''
 
                 # calculamos cuantos elementos existen y actualizamos el hash
                 sql = "SELECT COUNT(id) FROM foto"
@@ -154,7 +159,6 @@ class Avistamiento:
                 total = self.cursor.fetchall()[0][0] + 1
                 hash_archivo = str(total) + hashlib.sha256(filename.encode()).hexdigest()[0:30]
 
-                print("voy a guardar la foto yey")
                 # guardar el archivo
                 file_path = 'media/' + hash_archivo
                 open(file_path, 'wb').write(fileobj.file.read())
@@ -197,8 +201,8 @@ class Avistamiento:
         for id in ids_comunas:
             sql = ''' 
             SELECT nombre
-            FROM 'comuna'
-            WHERE 'id' = {id}
+            FROM comuna
+            WHERE id = {id}
             '''
             self.cursor.execute(sql)
             comuna = self.cursor.fetchall()[0][0]

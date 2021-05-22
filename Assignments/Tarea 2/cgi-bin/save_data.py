@@ -15,8 +15,6 @@ utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 form = cgi.FieldStorage()
 database = db.Avistamiento("localhost", "root", "", "tarea2")
 
-print(form)
-
 fotos = []
 hayfotos = False
 listavacia = True
