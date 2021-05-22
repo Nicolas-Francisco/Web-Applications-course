@@ -1,7 +1,29 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
+import cgi
+import cgitb;
+
+cgitb.enable()
+import db
+
+print("Content-type: text/html\r\n\r\n")
+utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
+
+pag = cgi.fieldStorage().getfirst("pag")
+if pag is None:
+    pag = 0
+
+print("Content-type:text/html\r\n\r\n")
+
+database = db.Avistamiento("localhost", "root", "", "tarea2")
+data = database.get_avistamientos(int(pag)+1)
+
+head = '''
 <!DOCTYPE html>
 <html lang="en">
     <meta charset="UTF-8">
-    <title> RegistroBichos </title>
+    <title> RegistroBichos - Avistamientos </title>
     <link rel="shortcut icon" href="img/emoji.ico" />
     <style>
         /* Body of the page*/
@@ -77,9 +99,20 @@
             padding: 5px;
             width: 90%;
         }
+        table {
+            margin: auto;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: center;
+            border: 1px solid black;
+        }
     </style>
     </head>
+    '''
 
+body1 = '''
 <!-- RegistroBichos body -->
 <body>
 
@@ -92,32 +125,70 @@
     <br>
 
     <p class="leyenda">
-        <form method="post" action="informar.html" style="display:inline">
-            <button class="button"> Informar avistamiento </button>
-        </form>
-        <form method="post" action="avistamientos.html" style="display:inline">
+        <a href="../informar.html"> 
+        <button class="button"> Informar avistamiento </button> 
+        </a>
+        
+        <a href="avistamientos.py?pag={0}" >
             <button class="button" > Registro de Avistamientos </button>
-        </form>
-        <form method="post" action="stats.html" style="display:inline">
+        </a>
+        <a href="../stats.html" >
             <button class="button"> Estadísticas </button>
-        </form>
+        </a>
     <p>
 </div>
 
 <div class="jump"></div>
 
-<div class="subsubtitle"> Formulario Enviado </div>
+<div class="subsubtitle"> Listado de Avistamientos </div>
+'''
 
-<div class="leyenda">
-    <p> Hemos recibido su información, muchas gracias por colaborar </p>
-</div>
+body2 = '''
+<div class="info">
+    <div class="leyenda">
+        <!-- We start a table to organize the info menu -->
+        <table class="table">
+            <!-- First row -->
+            <tr>
+                <th scope="col"> Fecha/Hora </th>
+                <th scope="col"> Comuna </th>
+                <th scope="col"> Sector </th>
+                <th scope="col"> Nombre Contacto </th>
+                <th scope="col"> Total Avistamientos </th>
+                <th scope="col"> Total Fotos </th>
+            </tr>
+'''
 
-<div class="jump"></div>
+print(head, file=utf8stdout)
+print(body1, file=utf8stdout)
+print(body2, file=utf8stdout)
 
-<div class="leyenda">
-    <form method="post" action="portada.html">
-        <button class="button"> Volver a la portada </button>
-    </form>
+if len(data) == 0:
+    row = f'''
+        <tr>
+        <th colspan="5"> Sin datos </th>
+        </tr>
+        '''
+    print(row, file=utf8stdout)
+
+else:
+    for d in data:
+        row = f'''
+        <tr>
+        <th>{str(d[0])}</th>
+        <th>{str(d[1])}</th>
+        <th>{str(d[2])}</th>
+        <th>{str(d[3])}</th>
+        <th>{str(d[4])}</th>
+        <th><img class="size" src=../media/{str(d[5])} width="120px" height="120px"></th>
+        </tr>
+        '''
+        print(row, file=utf8stdout)
+
+foot = '''
+</table>
+        <!-- We close the table -->
+    </div>
 </div>
 
 <div class="jump"></div>
@@ -125,3 +196,6 @@
 </body>
 
 </html>
+'''
+
+print(foot, file=utf8stdout)

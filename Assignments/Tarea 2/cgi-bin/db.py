@@ -18,6 +18,20 @@ class Avistamiento:
         )
         self.cursor = self.db.cursor()
 
+    def get_last_five_avistamientos(self):
+        sql = """
+        SELECT DA.dia_hora, CO.nombre, AV.sector, DA.tipo
+        FROM avistamiento AV, detalle_avistamiento DA, comuna CO 
+        WHERE DA.avistamiento_id = AV.id 
+        AND AV.comuna_id=CO.id 
+        ORDER BY DA.dia_hora 
+        DESC LIMIT 5
+        """
+        self.cursor.execute(sql)
+        data = self.cursor.fetchall()
+
+        return data
+
     def save_avistamiento(self, data):
         datosbase = data[0]
 
@@ -126,6 +140,14 @@ class Avistamiento:
                 filename = fileobj.filename
                 id_detalle = ids_detalle[i]
 
+                '''
+                if not filename:
+                    return -1
+                size = os.fstat(fileobj.file.fileno()).st_size
+                if size > MAX_FILE_SIZE:
+                    return -1
+                '''
+
                 # calculamos cuantos elementos existen y actualizamos el hash
                 sql = "SELECT COUNT(id) FROM foto"
                 self.cursor.execute(sql)
@@ -136,6 +158,11 @@ class Avistamiento:
                 # guardar el archivo
                 file_path = 'media/' + hash_archivo
                 open(file_path, 'wb').write(fileobj.file.read())
+
+                tipo = filetype.guess(file_path)
+                if (tipo.mime != 'image/png') and (tipo.mime != 'image/jpg') and (tipo.mime != 'image/jpeg'):
+                    os.remove(file_path)
+                    return -1
 
                 sql = """
                 INSERT INTO foto (ruta_archivo, nombre_archivo, detalle_avistamiento_id)

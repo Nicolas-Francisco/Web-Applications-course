@@ -7,6 +7,8 @@ import cgitb;
 cgitb.enable()
 import db
 
+print("Content-type: text/html\r\n\r\n")
+utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 database = db.Avistamiento("localhost", "root", "", "tarea2")
 data = database.get_last_five_avistamientos()
 
@@ -115,16 +117,17 @@ body1 = '''
 
     <br>
 
-    <p class="leyenda">
-        <form method="post" action="informar.html" style="display:inline">
-            <button class="button"> Informar avistamiento </button>
-        </form>
-        <form method="post" action="Listado.py?pag={0}" style="display:inline">
+    <p class="leyenda" >
+        <a href="../informar.html"> 
+        <button class="button"> Informar avistamiento </button> 
+        </a>
+        
+        <a href="avistamientos.py?pag={0}" >
             <button class="button" > Registro de Avistamientos </button>
-        </form>
-        <form method="post" action="stats.html" style="display:inline">
+        </a>
+        <a href="../stats.html">
             <button class="button"> Estadísticas </button>
-        </form>
+        </a>
     <p>
 </div>
 
@@ -148,31 +151,30 @@ body2 = '''
             </tr>
 '''
 
-print(head)
-print(body1)
-print(body2)
+print(head, file=utf8stdout)
+print(body1, file=utf8stdout)
+print(body2, file=utf8stdout)
 
 if len(data) == 0:
     row = f'''
         <tr>
-        <th colspan="5"> Sin datos> </th>
+        <th colspan="5"> Sin datos </th>
         </tr>
         '''
-    print(row)
+    print(row, file=utf8stdout)
 
 else:
     for d in data:
         row = f'''
         <tr>
-        <th>{str(d[0])}</th>
-        <th>{str(d[1])}</th>
-        <th>{str(d[2])}</th>
-        <th>{str(d[3])}</th>
-        <th>{str(d[4])}</th>
-        <th><img class="size" src=../media/{str(d[5])} width="120px" height="120px"></th>
+        <th> {str(d[0])} </th>
+        <th> {str(d[1])} </th>
+        <th> {str(d[2])} </th>
+        <th> {str(d[3])} </th>
+        <th> foto </th>
         </tr>
         '''
-        print(row)
+        print(row, file=utf8stdout)
 
 foot = '''
 </table>
@@ -187,4 +189,4 @@ foot = '''
 </html>
 '''
 
-print(foot)
+print(foot, file=utf8stdout)

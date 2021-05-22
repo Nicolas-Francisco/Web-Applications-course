@@ -101,15 +101,16 @@
     <br>
 
     <p class="leyenda">
-        <form method="post" action="informar.html" style="display:inline">
-            <button class="button"> Informar avistamiento </button>
-        </form>
-        <form method="post" action="avistamientos.html" style="display:inline">
+        <a href="/informar.html">
+        <button class="button"> Informar avistamiento </button>
+        </a>
+
+        <a href="/cgi-bin/avistamientos.py?pag={0}">
             <button class="button" > Registro de Avistamientos </button>
-        </form>
-        <form method="post" action="stats.html" style="display:inline">
+        </a>
+        <a href="/stats.html">
             <button class="button"> Estadísticas </button>
-        </form>
+        </a>
     <p>
 </div>
 
@@ -126,9 +127,9 @@
 <div class="jump"></div>';
 
 <div class="leyenda">
-    <form method="post" action="portada.html">
+    <a href="/cgi-bin/Portada.py">
         <button class="button"> Volver </button>
-    </form>
+    </a>
 </div>
 
 <div class="jump"></div>';

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import cgi
-import cgitb;
+import cgitb
 
 cgitb.enable()
 
@@ -10,11 +10,12 @@ import db
 from datetime import datetime
 
 print("Content-type: text/html\r\n\r\n")
-
 utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 
 form = cgi.FieldStorage()
 database = db.Avistamiento("localhost", "root", "", "tarea2")
+
+print(form)
 
 fotos = []
 hayfotos = False
@@ -46,8 +47,6 @@ now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 data = []
 if not isinstance(form["tipo-avistamiento"], list):  # Si no hay una lista de elementos de tipo
     # Entonces nos informan un solo avistamiento
-
-    print(form.keys())
 
     if 'sector' not in form:
         sector = ""
@@ -184,15 +183,16 @@ html1 = """
     <br>
 
     <p class="leyenda">
-        <form method="post" action="informar.html" style="display:inline">
-            <button class="button"> Informar avistamiento </button>
-        </form>
-        <form method="post" action="avistamientos.html" style="display:inline">
+        <a href="../informar.html"> 
+        <button class="button"> Informar avistamiento </button> 
+        </a>
+        
+        <a href="avistamientos.py?pag={0}" >
             <button class="button" > Registro de Avistamientos </button>
-        </form>
-        <form method="post" action="stats.html" style="display:inline">
+        </a>
+        <a href="../stats.html">
             <button class="button"> Estadísticas </button>
-        </form>
+        </a>
     <p>
 </div>
 
@@ -311,15 +311,16 @@ html2 = """
     <br>
 
     <p class="leyenda">
-        <form method="post" action="informar.html" style="display:inline">
-            <button class="button"> Informar avistamiento </button>
-        </form>
-        <form method="post" action="avistamientos.html" style="display:inline">
+        <a href="../informar.html"> 
+        <button class="button"> Informar avistamiento </button> 
+        </a>
+        
+        <a href="avistamientos.py?pag={0}" >
             <button class="button" > Registro de Avistamientos </button>
-        </form>
-        <form method="post" action="stats.html" style="display:inline">
+        </a>
+        <a href="../stats.html">
             <button class="button"> Estadísticas </button>
-        </form>
+        </a>
     <p>
 </div>
 
@@ -335,6 +336,6 @@ html2 = """
 """
 
 if database.save_avistamiento(data) == 1:
-    print(html1)
+    print(html1, file=utf8stdout)
 else:
-    print(html2)
+    print(html2, file=utf8stdout)
