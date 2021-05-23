@@ -7,17 +7,14 @@ import cgitb;
 cgitb.enable()
 import db
 
+pag = cgi.FieldStorage().getfirst("pag")
+if pag is None:
+    pag = 1
+
 print("Content-type: text/html\r\n\r\n")
 utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
-
-pag = cgi.fieldStorage().getfirst("pag")
-if pag is None:
-    pag = 0
-
-print("Content-type:text/html\r\n\r\n")
-
 database = db.Avistamiento("localhost", "root", "", "tarea2")
-data = database.get_avistamientos(int(pag)+1)
+data = database.get_avistamientos(int(pag)-1)
 
 head = '''
 <!DOCTYPE html>
@@ -129,7 +126,7 @@ body1 = '''
         <button class="button"> Informar avistamiento </button> 
         </a>
         
-        <a href="avistamientos.py?pag={0}" >
+        <a href="avistamientos.py?pag=1" >
             <button class="button" > Registro de Avistamientos </button>
         </a>
         <a href="../stats.html" >
@@ -172,15 +169,16 @@ if len(data) == 0:
     print(row, file=utf8stdout)
 
 else:
-    for d in data:
+    for i in range(len(data[0])):
+
         row = f'''
         <tr>
-        <th>{str(d[0])}</th>
-        <th>{str(d[1])}</th>
-        <th>{str(d[2])}</th>
-        <th>{str(d[3])}</th>
-        <th>{str(d[4])}</th>
-        <th><img class="size" src=../media/{str(d[5])} width="120px" height="120px"></th>
+        <th>{str(data[0][i][2])}</th>
+        <th>{str(data[2][i])}</th>
+        <th>{str(data[0][i][3])}</th>
+        <th>{str(data[0][i][4])}</th>
+        <th>{str(data[1][i])}</th>
+        <th>{str(data[4][i])} </th>
         </tr>
         '''
         print(row, file=utf8stdout)

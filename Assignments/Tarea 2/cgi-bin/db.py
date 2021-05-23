@@ -192,31 +192,46 @@ class Avistamiento:
         data = self.cursor.fetchall()
 
         ids_avistamientos = ([fila[0] for fila in data])
-        count = []
+        count_avist = []
+        count_fotos = []
+
         for id in ids_avistamientos:
-            sql = ''' 
+            sql = f''' 
             SELECT COUNT(*)
             FROM detalle_avistamiento
-            WHERE avistamiento_id = {id}
+            WHERE avistamiento_id={id}
             '''
             self.cursor.execute(sql)
             cantidad = self.cursor.fetchall()[0][0]
-            count.append(cantidad)
+            count_avist.append(cantidad)
+
+        for id in ids_avistamientos:
+            sql = f"""
+            SELECT COUNT(*)
+            FROM detalle_avistamiento DA, foto F
+            WHERE DA.id = F.detalle_avistamiento_id
+            AND avistamiento_id={id}
+            """
+            self.cursor.execute(sql)
+            cantidad = self.cursor.fetchall()[0][0]
+            count_fotos.append(cantidad)
 
         ids_comunas = ([fila[1] for fila in data])
         comunas = []
+
         for id in ids_comunas:
-            sql = ''' 
+            sql = f''' 
             SELECT nombre
             FROM comuna
-            WHERE id = {id}
+            WHERE id={id}
             '''
             self.cursor.execute(sql)
             comuna = self.cursor.fetchall()[0][0]
             comunas.append(comuna)
 
         elementos = pag*5
-        data = (data[elementos:elementos + 5], count[elementos:elementos + 5],
-                comunas[elementos:elementos + 5], len(data))
+        data = (data[elementos:elementos + 5], count_avist[elementos:elementos + 5],
+                comunas[elementos:elementos + 5], len(data),
+                count_fotos[elementos:elementos + 5])
 
         return data
