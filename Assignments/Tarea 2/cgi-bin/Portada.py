@@ -164,14 +164,14 @@ if len(data) == 0:
     print(row, file=utf8stdout)
 
 else:
-    for d in data:
+    for i in range(len(data[0])):
         row = f'''
         <tr>
-        <th> {str(d[0])} </th>
-        <th> {str(d[1])} </th>
-        <th> {str(d[2])} </th>
-        <th> {str(d[3])} </th>
-        <th> foto </th>
+        <th> {str(data[0][i][1])} </th>
+        <th> {str(data[0][i][1])} </th>
+        <th> {str(data[0][i][2])} </th>
+        <th> {str(data[0][i][3])} </th>
+        <th> <img class="size" src=../media/{str(data[1][i])} width="120px" height="120px"> </th>
         </tr>
         '''
         print(row, file=utf8stdout)

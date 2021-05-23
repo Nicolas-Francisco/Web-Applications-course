@@ -20,7 +20,7 @@ class Avistamiento:
 
     def get_last_five_avistamientos(self):
         sql = """
-        SELECT DA.dia_hora, CO.nombre, AV.sector, DA.tipo
+        SELECT DA.dia_hora, CO.nombre, AV.sector, DA.tipo, DA.id
         FROM avistamiento AV, detalle_avistamiento DA, comuna CO
         WHERE DA.avistamiento_id = AV.id 
         AND AV.comuna_id=CO.id 
@@ -28,16 +28,23 @@ class Avistamiento:
         DESC LIMIT 5
         """
         self.cursor.execute(sql)
-        data = self.cursor.fetchall()
+        avistamientos = self.cursor.fetchall()
 
+        ids = ([fila[4] for fila in avistamientos])
+        paths = []
+
+        for i in range(len(ids)):
+            sql = f"""
+                    SELECT ruta_archivo 
+                    FROM foto 
+                    WHERE detalle_avistamiento_id={ids[i]}
+                    """
+            self.cursor.execute(sql)
+            path = self.cursor.fetchall()[0][0] # Saco la primera foto
+            paths.append(path)
+
+        data = (avistamientos, paths)
         return data
-
-    def get_five_last_img(self, id):
-        sql = f"""
-        SELECT ruta_archivo FROM foto where detalle_avistamiento_id={id}
-        """
-        self.cursor.execute(sql)
-        return self.cursor.fetchall()  # retornamos la imagen
 
     def save_avistamiento(self, data):
         datosbase = data[0]
