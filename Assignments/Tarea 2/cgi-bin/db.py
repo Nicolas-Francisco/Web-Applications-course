@@ -35,10 +35,10 @@ class Avistamiento:
 
         for i in range(len(ids)):
             sql = f"""
-                    SELECT ruta_archivo 
-                    FROM foto 
-                    WHERE detalle_avistamiento_id={ids[i]}
-                    """
+            SELECT ruta_archivo
+            FROM foto 
+            WHERE detalle_avistamiento_id={ids[i]}
+            """
             self.cursor.execute(sql)
             path = self.cursor.fetchall()[0][0] # Saco la primera foto
             paths.append(path)
@@ -233,5 +233,61 @@ class Avistamiento:
         data = (data[elementos:elementos + 5], count_avist[elementos:elementos + 5],
                 comunas[elementos:elementos + 5], len(data),
                 count_fotos[elementos:elementos + 5])
+
+        return data
+
+    def get_avist(self, id_avist):
+        sql = f'''
+        SELECT comuna_id, dia_hora, sector, nombre, email, celular
+        FROM avistamiento
+        WHERE id = {id_avist}
+        '''
+        self.cursor.execute(sql)
+        data_principal = self.cursor.fetchall()
+
+        sql = f''' 
+        SELECT nombre
+        FROM comuna
+        WHERE id={data_principal[0]}
+        '''
+        self.cursor.execute(sql)
+        comuna = self.cursor.fetchall()[0][0]
+
+        sql = f'''
+        SELECT id, dia_hora, tipo, estado, avistamiento_id
+        FROM detalle_avistamiento
+        WHERE avistamiento_id = {id_avist}
+        '''
+        self.cursor.execute(sql)
+        data_avist = self.cursor.fetchall()
+
+        sql = f"""
+        SELECT COUNT(*)
+        FROM detalle_avistamiento DA, foto F
+        WHERE DA.id = F.detalle_avistamiento_id
+        AND avistamiento_id={id_avist}
+        """
+        self.cursor.execute(sql)
+        cantidad_fotos = self.cursor.fetchall()[0][0]
+
+        sql = f'''
+        SELECT ruta_archivo
+        FROM foto
+        WHERE detalle_avistamiento_id = {id_avist}
+        '''
+        self.cursor.execute(sql)
+        rutas_fotos = self.cursor.fetchall()
+
+        sector = data_principal[2]
+        if sector is None:
+            sector = "No informado"
+
+        celular = data_principal[5]
+        if celular is None:
+            celular = ""
+
+        data = (data_principal[1], comuna, sector, data_principal[3],
+                data_principal[4], celular, data_avist[2],
+                data_avist[3], cantidad_fotos, rutas_fotos)
 
         return data

@@ -165,11 +165,17 @@ if len(data) == 0:
 
 else:
     for i in range(len(data[0])):
+
+        if data[0][i][2] is None:
+            sector = "No informado"
+        else:
+            sector = data[0][i][2]
+
         row = f'''
         <tr>
+        <th> {str(data[0][i][0])} </th>
         <th> {str(data[0][i][1])} </th>
-        <th> {str(data[0][i][1])} </th>
-        <th> {str(data[0][i][2])} </th>
+        <th> {str(sector)} </th>
         <th> {str(data[0][i][3])} </th>
         <th> <img class="size" src=../media/{str(data[1][i])} width="120px" height="120px"> </th>
         </tr>

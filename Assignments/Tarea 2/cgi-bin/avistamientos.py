@@ -144,7 +144,7 @@ body2 = '''
 <div class="info">
     <div class="leyenda">
         <!-- We start a table to organize the info menu -->
-        <table class="table">
+        <table class="table" id="tabla">
             <!-- First row -->
             <tr>
                 <th scope="col"> Fecha/Hora </th>
@@ -160,10 +160,10 @@ print(head, file=utf8stdout)
 print(body1, file=utf8stdout)
 print(body2, file=utf8stdout)
 
-if len(data) == 0:
+if len(data[0]) == 0:
     row = f'''
         <tr>
-        <th colspan="5"> Sin datos </th>
+        <th colspan="6"> Sin datos </th>
         </tr>
         '''
     print(row, file=utf8stdout)
@@ -171,11 +171,16 @@ if len(data) == 0:
 else:
     for i in range(len(data[0])):
 
+        if data[0][i][3] is None:
+            sector = "No informado"
+        else:
+            sector = data[0][i][3]
+
         row = f'''
-        <tr>
+        <tr onclick="show_info({int(data[0][i][0])}, {int(pag)})">
         <th>{str(data[0][i][2])}</th>
         <th>{str(data[2][i])}</th>
-        <th>{str(data[0][i][3])}</th>
+        <th>{str(sector)}</th>
         <th>{str(data[0][i][4])}</th>
         <th>{str(data[1][i])}</th>
         <th>{str(data[4][i])} </th>
@@ -191,7 +196,61 @@ foot = '''
 
 <div class="jump"></div>
 
+<div class="leyenda">
+    <button class="button" id="anterior" onclick="to_back()"> Anterior </button>
+    
+    <button class="button" id="siguiente" onclick="to_next()"> Siguiente </button>
+</div>
+
 </body>
+
+<script>
+    document.body.onload = show_buttons;
+    
+    function page(){
+        let rutaAbsoluta = self.location.href;
+        let posicionNumero = rutaAbsoluta.lastIndexOf("=");
+        let rutaRelativa = rutaAbsoluta.substring(posicionNumero + "=".length , rutaAbsoluta.length);
+        return rutaRelativa;
+    }
+
+    function show_buttons(){
+        let pag = parseInt(page());
+        
+        // Si estoy en la primera página, entonces no hay botón atrás
+        if (pag == 1){
+            let boton_atras = document.getElementById("anterior");
+            boton_atras.setAttribute('style', 'display: none');
+        }
+        
+        // Si la tabla no está llena, entonces no hay botón adelante
+        let filas_tabla = document.getElementById("tabla").rows.length;
+        if (filas_tabla < 6){
+            let boton_next = document.getElementById("siguiente");
+            boton_next.setAttribute('style', 'display: none');
+        }
+    }   
+        
+    function to_back(){
+        let newpag = parseInt(page()) - 1;
+        if (!(newpag == 0)){
+            let ref = "avistamientos.py?pag=" + newpag.toString();
+            location.href = ref;
+        }
+    }
+    
+    function to_next(){
+        let newpag = parseInt(page()) + 1;
+        let ref = "avistamientos.py?pag=" + newpag.toString();
+        location.href = ref;
+    }
+    
+    function show_info(id_avist, pag){
+        let ref = "Informacion.py?pag=" + pag.toString() + "&id=" + id_avist.toString();
+        location.href = ref;
+    }
+    
+</script>
 
 </html>
 '''

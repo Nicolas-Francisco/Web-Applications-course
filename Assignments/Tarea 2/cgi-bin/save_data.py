@@ -185,7 +185,7 @@ html1 = """
         <button class="button"> Informar avistamiento </button> 
         </a>
         
-        <a href="avistamientos.py?pag={0}" >
+        <a href="avistamientos.py?pag=1" >
             <button class="button" > Registro de Avistamientos </button>
         </a>
         <a href="../stats.html">
@@ -313,7 +313,7 @@ html2 = """
         <button class="button"> Informar avistamiento </button> 
         </a>
         
-        <a href="avistamientos.py?pag={0}" >
+        <a href="avistamientos.py?pag=1" >
             <button class="button" > Registro de Avistamientos </button>
         </a>
         <a href="../stats.html">
