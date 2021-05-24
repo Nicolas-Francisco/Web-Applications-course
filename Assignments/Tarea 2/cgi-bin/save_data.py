@@ -43,7 +43,7 @@ for i in form.list:
 now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 data = []
-if not isinstance(form["tipo-avistamiento"], list):  # Si no hay una lista de elementos de tipo
+if not isinstance(form["dia-hora-avistamiento"], list):  # Si no hay una lista de elementos de tipo
     # Entonces nos informan un solo avistamiento
 
     if 'sector' not in form:
@@ -64,13 +64,23 @@ if not isinstance(form["tipo-avistamiento"], list):  # Si no hay una lista de el
     data.append(datos)
 else:
     # Si no, me entregaron más elementos
+
+    if 'sector' not in form:
+        sector = ""
+    else:
+        sector = form['sector'].value
+    if 'celular' not in form:
+        celular = ""
+    else:
+        celular = form['celular'].value
+
     datosbase = (
-        now, form['region'].value, form['comuna'].value, form['sector'].value,
-        form['nombre'].value, form['email'].value, form['celular']
+        now, form['region'].value, form['comuna'].value, sector,
+        form['nombre'].value, form['email'].value, celular
     )
     data.append(datosbase)
 
-    for i in range(0, len(form["tipo-avistamiento"])):
+    for i in range(0, len(form["dia-hora-avistamiento"])):
         datoslista = (
             form['dia-hora-avistamiento'][i], form['tipo-avistamiento'][i],
             form['estado-avistamiento'][i], fotos[i]

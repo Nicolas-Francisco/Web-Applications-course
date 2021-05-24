@@ -5,6 +5,7 @@ import mysql.connector
 import hashlib
 import os
 import filetype
+import datetime
 
 MAX_FILE_SIZE = 10000 * 1000  # 10 MB
 
@@ -103,10 +104,19 @@ class Avistamiento:
         parse_tipo = {"N": "No sé",
                       "I": "Insecto",
                       "A": "Arácnido",
-                      "M": "Miriápodo"}
+                      "M": "Miriápodo",
+                      "No sé": "No sé",
+                      "Insecto": "Insecto",
+                      "Arácnido": "Arácnido",
+                      "Miriápodo": "Miriápodo",
+                      }
         parse_estado = {"N": "No sé",
                         "V": "Vivo",
-                        "M": "Muerto"}
+                        "M": "Muerto",
+                        "No sé": "No sé",
+                        "Vivo": "Vivo",
+                        "Muerto": "Muerto"
+                        }
 
         ids_detalle = []
         # Si la cantidad de avistamientos registrados es solo uno
@@ -237,6 +247,7 @@ class Avistamiento:
         return data
 
     def get_avist(self, id_avist):
+        # Datos principales de contacto, hora, lugar, etc.
         sql = f'''
         SELECT comuna_id, dia_hora, sector, nombre, email, celular
         FROM avistamiento
@@ -245,14 +256,16 @@ class Avistamiento:
         self.cursor.execute(sql)
         data_principal = self.cursor.fetchall()
 
+        # Nombre de la comuna
         sql = f''' 
         SELECT nombre
         FROM comuna
-        WHERE id={data_principal[0]}
+        WHERE id={data_principal[0][0]}
         '''
         self.cursor.execute(sql)
         comuna = self.cursor.fetchall()[0][0]
 
+        # Detalle dependiendo del id del avistamiento
         sql = f'''
         SELECT id, dia_hora, tipo, estado, avistamiento_id
         FROM detalle_avistamiento
@@ -261,33 +274,47 @@ class Avistamiento:
         self.cursor.execute(sql)
         data_avist = self.cursor.fetchall()
 
-        sql = f"""
-        SELECT COUNT(*)
-        FROM detalle_avistamiento DA, foto F
-        WHERE DA.id = F.detalle_avistamiento_id
-        AND avistamiento_id={id_avist}
-        """
-        self.cursor.execute(sql)
-        cantidad_fotos = self.cursor.fetchall()[0][0]
+        cantidad_fotos = 0
+        cantidades = []
+        rutas_fotos = []
+        # Por cada avistamiento informado:
+        for avist in data_avist:
+            # Sacamos la cantidad de fotos
+            sql = f"""
+            SELECT COUNT(*)
+            FROM foto F
+            WHERE F.detalle_avistamiento_id = {avist[0]}
+            """
+            self.cursor.execute(sql)
+            number = self.cursor.fetchall()[0][0]
+            cantidades.append(number)
+            cantidad_fotos += number
 
-        sql = f'''
-        SELECT ruta_archivo
-        FROM foto
-        WHERE detalle_avistamiento_id = {id_avist}
-        '''
-        self.cursor.execute(sql)
-        rutas_fotos = self.cursor.fetchall()
+            # Sacamos las rutas de cada una de estas
+            sql = f'''
+            SELECT ruta_archivo
+            FROM foto
+            WHERE detalle_avistamiento_id = {avist[0]}
+            '''
+            self.cursor.execute(sql)
+            rutas_fotos.append(self.cursor.fetchall())
 
-        sector = data_principal[2]
+        sector = data_principal[0][2]
         if sector is None:
             sector = "No informado"
 
-        celular = data_principal[5]
+        celular = data_principal[0][5]
         if celular is None:
             celular = ""
 
-        data = (data_principal[1], comuna, sector, data_principal[3],
-                data_principal[4], celular, data_avist[2],
-                data_avist[3], cantidad_fotos, rutas_fotos)
+        data = (data_principal[0][1], comuna, sector, data_principal[0][3],
+                data_principal[0][4], celular, data_avist,
+                cantidad_fotos, rutas_fotos,
+                cantidades)
+
+        # data = (Fecha y hora de subida, comuna, sector, nombre,
+        #         E-Mail, celular, informacion de avistamientos,
+        #         cantidad de fotos, rutas de las fotos,
+        #         cantidad de fotos por cada avistamiento)
 
         return data

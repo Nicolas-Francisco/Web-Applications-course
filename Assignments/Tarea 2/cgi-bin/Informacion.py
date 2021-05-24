@@ -58,6 +58,19 @@ head = '''
             font-size: 19px;
             color: black;
         }
+        .subsubtitle2{
+            /* Subtitle settings */
+            width: 250px;
+            background-color: #AAFF8F;
+            padding: 5px;
+            border-radius: 5px;
+            text-align: center;
+            border-top: 15px;
+            border-bottom: 15px;
+            margin: auto;
+            font-size: 19px;
+            color: black;
+        }
         .jump{
             margin-top: 2%;
         }
@@ -137,7 +150,7 @@ body1 = '''
 
 <div class="jump"></div>
 
-<div class="subsubtitle"> Datos de Avistamiento </div>
+<div class="subsubtitle"> Información de Contacto </div>
 '''
 
 print(head, file=utf8stdout)
@@ -150,7 +163,7 @@ body2 = f'''
         <table class="table">
             <!-- First row -->
             <tr>
-                <td> Fecha/Hora </td>
+                <td> Fecha - Hora </td>
                 <td> {str(data[0])} </td>
             </tr>
 
@@ -169,24 +182,17 @@ body2 = f'''
             <!-- Fourth row -->
             <tr>
                 <td> Contacto </td>
-                <td> {str(data[3])} - {str(data[4])} - {str(data[5])} </td>
+                <td> {str(data[3])} </td>
             </tr>
-
-            <!-- Fifth row -->
+            
             <tr>
-                <td> Tipo </td>
-                <td> {str(data[6])} </td>
+                <td> E-Mail </td>
+                <td> {str(data[4])} </td>
             </tr>
-
-            <!-- Sixth row -->
+            
             <tr>
-                <td> Estado </td>
-                <td> {str(data[7])} </td>
-            </tr>
-            <!-- Sixth row -->
-            <tr>
-                <td> Fotos </td>
-                <td> {str(data[8])} </td>
+                <td> Celular </td>
+                <td> {str(data[5])} </td>
             </tr>
         </table>
         <!-- We close the table -->
@@ -197,17 +203,58 @@ body2 = f'''
 
 print(body2, file=utf8stdout)
 
-for ruta in data[9]:
-    row = f'''
-    <div class="leyenda">
-        <img src=../media/{ruta} height="240" width="320" id={ruta} alt="{ruta}">
-    </div>
+id = 0
+for n in range(len(data[6])):
+    table_avist = f'''
+    <div class="subsubtitle2"> Avistamiento {n+1} </div>
+    
+    <div class="info">
+        <div class="leyenda">
+            <!-- We start a table to organize the info menu -->
+            <table class="table">
+                <tr>
+                    <td> Fecha-Hora </td>
+                    <td> {str(data[6][n][1])} </td>
+                </tr>
+                
+                <tr>
+                    <td> Tipo </td>
+                    <td> {str(data[6][n][2])} </td>
+                </tr>
+    
+                <tr>
+                    <td> Estado </td>
+                    <td> {str(data[6][n][3])} </td>
+                </tr>
+                
+                <tr>
+                    <td> Fotos </td>
+                    <td> {str(data[9][n])} </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="jump"></div>
+    '''
+    print(table_avist, file=utf8stdout)
 
-    <div class="leyenda">
-        <button class="button" type="button" id="{ruta}-button" onclick="pop({ruta}, "{ruta}-button")"> Agrandar Imagen </button>
-    </div> '''
-    print(row, file=utf8stdout)
+    for ruta in data[8][n]:
+        fun = "pop("+str(id)+","+str(id)+"button)"
 
+        row = f'''
+        <div class="leyenda">
+            <img src=../media/{ruta[0]} height="240" width="320" id="{str(id)}" alt="{str(id)}">
+        </div>
+    
+        <div class="leyenda">
+            <button class="button" type="button" id="{str(id)}button" onclick="{str(fun)}"> Agrandar Imagen </button>
+        </div> 
+        
+        <div class="jump"></div>
+        '''
+        print(row, file=utf8stdout)
+
+        id+=1
 
 foot = '''
 </div>
@@ -220,7 +267,8 @@ foot = '''
         let boton = document.getElementById(id_button);
         imagen.setAttribute('height', '600');
         imagen.setAttribute('width', '800');
-        boton.setAttribute('onclick', "closePop('insecto_js', 'insecto_js-button')");
+        boton.setAttribute('onclick', "closePop(" + id.toString() + ", " + id_button.toString() + ")");
+        boton.innerHTML = "Achicar Imagen";
     }
 
     function closePop(id, id_button){
@@ -228,7 +276,8 @@ foot = '''
         let boton = document.getElementById(id_button);
         imagen.setAttribute('height', '240');
         imagen.setAttribute('width', '320');
-        boton.setAttribute('onclick', "pop('insecto_js', 'insecto_js-button')");
+        boton.setAttribute('onclick', "pop(" + id.toString() + ", " + id_button.toString() + ")");
+        boton.innerHTML = "Agrandar Imagen"
     }
 
 </script>
