@@ -9,7 +9,7 @@ import db
 
 print("Content-type: text/html\r\n\r\n")
 utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
-database = db.Avistamiento("localhost", "root", "", "tarea2")
+database = db.Avistamiento("localhost", "cc500258_u", "uereturpis", "cc500258_db")
 data = database.get_last_five_avistamientos()
 
 head = '''
@@ -155,7 +155,7 @@ print(head, file=utf8stdout)
 print(body1, file=utf8stdout)
 print(body2, file=utf8stdout)
 
-if len(data) == 0:
+if len(data[0]) == 0:
     row = f'''
         <tr>
         <th colspan="5"> Sin datos </th>

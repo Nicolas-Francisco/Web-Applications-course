@@ -13,7 +13,7 @@ print("Content-type: text/html\r\n\r\n")
 utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 
 form = cgi.FieldStorage()
-database = db.Avistamiento("localhost", "root", "", "tarea2")
+database = db.Avistamiento("localhost", "cc500258_u", "uereturpis", "cc500258_db")
 
 fotos = []
 hayfotos = False
@@ -210,6 +210,12 @@ html1 = """
 
 <div class="jump"></div>
 
+<div class="leyenda">
+    <a href="/cgi-bin/Portada.py">
+        <button class="button"> Volver a Portada </button>
+    </a>
+</div>
+
 </body>
 
 </html>
@@ -337,6 +343,12 @@ html2 = """
 <div class="subsubtitle"> Lo sentimos, ha habido un error </div>
 
 <div class="jump"></div>
+
+<div class="leyenda">
+    <a href="/cgi-bin/Portada.py">
+        <button class="button"> Volver a Portada </button>
+    </a>
+</div>
 
 </body>
 

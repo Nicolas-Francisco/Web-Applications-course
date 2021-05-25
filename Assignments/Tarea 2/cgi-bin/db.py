@@ -177,7 +177,7 @@ class Avistamiento:
                 hash_archivo = str(total) + hashlib.sha256(filename.encode()).hexdigest()[0:30]
 
                 # guardar el archivo
-                file_path = 'media/' + hash_archivo
+                file_path = '../media/' + hash_archivo
                 open(file_path, 'wb').write(fileobj.file.read())
 
                 tipo = filetype.guess(file_path)
