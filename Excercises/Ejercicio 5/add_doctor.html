@@ -1,0 +1,100 @@
+<!-- HTML5 -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" /> <!-- Declaring enconding as UTF 8-->
+    <title> Ejercicio 3</title> <!-- Title in pestaña -->
+    <link rel="stylesheet" type="text/css" media="screen"  href="../style.css" />    <!-- CSS: -->
+    <script src="jquery-3.5.0.js"></script>  <!-- Importing JQUERY  -->
+</head>
+<body>
+
+<ul class="topnav">
+  <li><a class="active" href="../index.html">Inicio</a></li>
+  <li><a href="add_doctor.html">Agregar Datos de Médico</a></li>
+  <li><a href="cgi-bin/list.py">Ver Médicos</a></li>
+</ul>
+
+<div>
+    <!-- Body of page -->
+    <h1>Agregar datos de un médico</h1>
+    <form id="myform" method="post" action="cgi-bin/save_doctor.py" enctype="multipart/form-data">
+      
+      <!-- Label for nombre médico -->
+      <br>
+      <label for="nombre-medico" class="text-field">Nombre (*)</label>
+      <br> 
+      <input type="text" id="nombre-medico" name="nombre-medico" size="20" maxlength="30" placeholder="Nombre del médico" >
+      <br>
+
+      <!-- Label for experiencia-medico -->
+      <br>
+      <label for="experiencia-medico" class="text-field">Experiencia (*)</label>
+      <br>
+      <textarea rows="8" cols="40" id="experiencia-medico" name="experiencia-medico" placeholder="Ingrese experiencia del médico."></textarea>
+      <br>
+      <br>
+
+      <!-- Label for Especialidades -->
+      <label for="especialidad-medico" class="text-field">Especialidad del médico (*)</label>
+      <br>
+      <select id="especialidad-medico" name="especialidad-medico" >
+        <option value="Cardiología">Cardiología</option>
+        <option value="Gastroenterología">Gastroenterología</option>
+        <option value="Endocrinología">Endocrinología</option>
+        <option value="Epidemiología">Epidemiología</option>
+        <option value="Geriatría">Geriatría</option>
+        <option value="Hematología">Hematología</option>
+        <option value="Infectología">Infectología</option>
+        <option value="Medicina del Deporte">Medicina del Deporte</option>
+        <option value="Medicina de urgencias">Medicina de urgencias</option>
+        <option value="Medicina interna">Medicina interna</option>
+        <option value="Nefrología">Nefrología</option>
+        <option value="Neumología">Neumología</option>
+        <option value="Neurología">Neurología</option>
+        <option value="Nutriología">Nutriología</option>
+        <option value="Oncología">Oncología</option>
+        <option value="Pediatría">Pediatría</option>
+        <option value="Psiquiatría">Psiquiatría</option>
+        <option value="Reumatología">Reumatología</option>
+        <option value="Toxicología">Toxicología</option>
+        <option value="Dermatología">Dermatología</option>
+        <option value="Ginecología">Ginecología</option>
+        <option value="Oftalmología">Oftalmología</option>
+        <option value="Otorrinolaringología">Otorrinolaringología</option>
+        <option value="Urología">Urología</option>
+        <option value="Traumatología">Traumatología</option>
+      </select>
+      <br>
+
+      <!-- Label for email contacto -->
+      <br>
+      <label for="email-medico" class="text-field">Email contacto (*)</label>
+      <br>
+      <input type="email" id="email-medico" name="email-medico" size="80" maxlength="80" placeholder="Correo electrónico" >
+      <br>
+
+      <!-- Label for número celular contacto -->
+      <br>
+      <label for="celular-medico" class="text-field">Celular contacto (*)</label>
+      <br>
+      <input type="tel" id="celular-medico" name="celular-medico" maxlength="20" placeholder="Correo electrónico">
+      <br> 
+      <br>
+
+            <!-- Label for foto doctor -->
+      <br>
+      <label for="foto-medico" class="text-field"> Foto (*)</label>
+      <br>
+      <input type="file" id="foto-medico" name="foto-medico">
+      <br>
+
+
+      <input type="submit" value="Crear datos del médico">
+      <br>
+      <br>
+      </form>
+      </div>
+</body>
+</html>
