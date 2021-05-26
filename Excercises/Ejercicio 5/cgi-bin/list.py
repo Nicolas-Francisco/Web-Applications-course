@@ -5,7 +5,7 @@ from db import Doctor
 
 print("Content-type:text/html\r\n\r\n")
 
-doctordb = Doctor("localhost", "root", "", "ejercicio4")
+doctordb = Doctor("localhost", "root", "", "ejercicio5")
 data = doctordb.get_doctors()
 
 head = '''

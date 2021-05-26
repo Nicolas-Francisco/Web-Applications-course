@@ -4,16 +4,16 @@
 import mysql.connector
 
 db = mysql.connector.connect(
-  host="localhost",       # 127.0.0.1cd cgi
+  host="localhost",
   user="root",
   password="",
-  database="ejercicio4"
+  database="ejercicio5"
 )
 
 cursor = db.cursor()
 
 cursor.execute('''
-CREATE TABLE IF NOT EXISTS `ejercicio4`.`archivo` (
+CREATE TABLE IF NOT EXISTS `ejercicio5`.`archivo` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(256) NOT NULL,
   `path` VARCHAR (256) NOT NULL,
@@ -22,7 +22,7 @@ ENGINE = InnoDB;
 ''')
 
 cursor.execute('''
-CREATE TABLE IF NOT EXISTS `ejercicio4`.`medico` (
+CREATE TABLE IF NOT EXISTS `ejercicio5`.`medico` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(20) NOT NULL,
   `experiencia` VARCHAR (1000) NOT NULL,
@@ -34,5 +34,3 @@ CREATE TABLE IF NOT EXISTS `ejercicio4`.`medico` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 ''')
-
-print("La tabla se creo con éxito!")
