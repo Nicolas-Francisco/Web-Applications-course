@@ -3,75 +3,93 @@
 
 from db import Doctor
 
-print("Content-type:text/html\r\n\r\n")
+print("Content-type: text/html\r\n\r\n")
 
-doctordb = Doctor("localhost", "root", "", "ejercicio5")
-data = doctordb.get_doctors()
+doctordb = Doctor("localhost", "root", "", "ejercicio5")  #database del doctor
+data = doctordb.get_doctors() #tenemos la data
+
+
 
 head = '''
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <!--suppress ALL -->
 <head>
     <meta charset="UTF-8">
-    <title>ejercicio4</title>
+    <title> Listado Doctores </title>
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <script src="validador.js"></script>
+    <style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
 
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.foto{
+width: 120px;
+height: 120px;
+}
+</style>
 </head>
 '''
 
-body1 = """
-<body>
-<div>
-    <!-- Body of page -->
-    <h1> Datos de medicos</h1>
-</div>
-<div>
-    <table>
-    <tr>
-        <th>Nombre</th>
-        <th>Experiencia</th>
-        <th>Especialidad </th>
-        <th>E-Mail </th>
-        <th>Celular </th>
-        <th>Foto </th>
-    </tr>
-"""
+print(head)
+tableHTML = '''
+<div class="main" style="margin-top: 3%">
+        <table>
+        <tr>
+    <th>Nombre </th>
+    <th>Experiencia</th>
+    <th>Especialidad</th>
+    <th>Foto</th>
+    <th>Mail </th>
+    <th>telefono </th>
+'''
+print(tableHTML)
 
-body2 = """
-<body>
-<div>
-    <!-- Body of page -->
-    <h1> Datos de medicos </h1>
-    
-    <h2> No hay médicos registrados </h2>
-</div>
-<div>
-"""
-
-if (len(data) != 0):
-    print(body1)
+if len(data) != 0:
     for d in data:
+
+        img_name = doctordb.get_file(d[4])[0][0]
+        #print(img_name)
         row = f'''
                 <tr>
-                    <th>{str(d[0])}</th>
                     <th>{str(d[1])}</th>
                     <th>{str(d[2])}</th>
                     <th>{str(d[3])}</th>
-                    <th>{str(d[4])}</th>
-                    <th><img class="size" src=../media/{str(d[5])} width="120px" height="120px"></th>
+                    <th>{str(d[5])}</th>
+                    <th>{str(d[6])}</th>
+                    <th> <img class="foto" alt="abeja para la pagina" src="../media/{str(img_name)}"> </th>
                 </tr>
-            '''
+        '''
+
         print(row)
-
-    print("""
-    </table>
-    """)
 else:
-    print(body2)
+    nodata = '''
+    <h2>NO HAY MEDICOS EN EL REGISTRO</h2>
+    '''
+    print(nodata)
 
-footer = f"""
+b2 = '''
+</table>
+
 </div>
 
 </body>
-"""
 
-print(footer)
+
+</html>
+'''
+print(b2)
+
+
