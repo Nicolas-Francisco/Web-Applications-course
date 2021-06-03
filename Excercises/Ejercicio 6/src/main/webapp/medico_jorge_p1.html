@@ -1,0 +1,99 @@
+<!-- HTML5 -->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" /> <!-- Declaring enconding as UTF 8-->
+    <title>Ejercicio6</title> <!-- Title in pestaña -->
+    <link rel="stylesheet" type="text/css" media="screen"  href="css/index.css" />    <!-- CSS: -->
+    <script>
+        function Agrandar(container){
+            if (document.getElementById(container).height == 320){
+            document.getElementById(container).style="width:600px; height:800px;";
+            document.getElementById(container).height=800;
+            }
+            else {
+                document.getElementById(container).style="width:240px; height:320px;";
+                document.getElementById(container).height=320;
+            }
+        }
+    </script>
+</head>
+<body>
+
+<ul class="topnav">
+    <li><a class="active" href="index.html">Inicio</a></li>
+    <li><a href="add_new_doctor.html">Agregar Datos de Médico</a></li>
+    <li><a href="list.html">Ver Médicos</a></li>
+</ul>
+
+<div>
+
+    <!-- Nombre médico -->
+    <h1>Ficha del médico: Jorge Pérez </h1>
+    <br>
+    <table>
+    <!-- intro row -->
+        <tr>
+          <th>Campo de información</th>
+          <th>Información del Médico</th> 
+        </tr>
+    
+        
+    <!-- Región médico -->
+    <tr>
+        <th>Región del Médico</th>
+        <th>Región Metropolitana</th> 
+    </tr>
+
+    <!-- Comuna row  -->
+    <tr>
+        <th>Comuna del Médico</th>
+        <th>Santiago Centro</th> 
+    </tr>
+
+    <!-- Nombre row -->
+        <tr>
+            <th>Nombre del médico</th>
+            <th>Jorge Pérez</th> 
+        </tr>
+
+    <!-- Experiencia row -->
+    <tr>
+        <th>Experiencia</th>
+        <th></th> 
+    </tr>
+
+    <!-- Especialidad row -->
+    <tr>
+        <th>Especialidades</th>
+        <th>Neurología</th> 
+    </tr>
+
+
+    <!-- Twitter row -->
+    <tr>
+        <th>Twitter del médico</th>
+        <th>@JorgePerez___</th> 
+    </tr>
+
+    <!-- Email row -->
+    <tr>
+        <th>Email del médico</th>
+        <th>notengo@gmail.com</th> 
+    </tr>
+
+    <!-- Número row -->
+    <tr>
+        <th>Número de celular del médico</th>
+        <th>569 95770936</th> 
+    </tr>
+
+
+
+</table>
+
+</div>
+</body>
+</html>
