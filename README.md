@@ -32,8 +32,12 @@ Credits
 - **Professor** Jose Urzua R.
 - **Student** Nicolás García Ríos
 
-**Computer Sciences Department**
-
-**Faculty of Physical and Mathematical Sciences**
-
-**University of Chile**
+<h3 align="center">
+  Computer Sciences Department
+</h3>
+<h3 align="center">
+  Faculty of Physical and Mathematical Sciences
+</h3>
+<h3 align="center">
+  University of Chile
+</h3>
