@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8">
+    <title> RegistroBichos - Informar </title>
+    <link rel="shortcut icon" href="img/emoji.ico" />
+    <style>
+        /* Body of the page*/
+        body {
+            font-family: Helvetica, sans-serif;
+            margin: 0;
+        }
+        .title {
+            /* Title settings */
+            text-align: center;
+            font-size: 45px;
+            margin-top: 2%;
+            margin-bottom: 2%;
+            color: #0CA200;
+        }
+        .subtitle {
+            /* Subtitle settings */
+            text-align: center;
+            margin-top: 2%;
+            font-size: 19px;
+            color: black;
+            background-color: #AAFF8F;
+            padding-top: 15px;
+        }
+        .subsubtitle{
+            /* Subtitle settings */
+            width: 400px;
+            background-color: #AAFF8F;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            border-top: 15px;
+            border-bottom: 15px;
+            margin: auto;
+            font-size: 19px;
+            color: black;
+        }
+        .jump{
+            margin-top: 2%;
+        }
+        @media screen and (max-width: 500px){
+            .black {
+                font-size: 15px;
+            }
+        }
+        .button {
+            font-size: 15px;
+            background-color: #AAFF8F;
+            color: black;
+            border: 2px solid #AAFF8F;
+            border-radius: 6px;
+            padding: 15px 30px;
+            transition-duration: 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+        .button:hover {
+            background-color: white;
+            color: #0CA200;
+        }
+        .leyenda {
+            text-align: center;
+            font-size: 15px;
+        }
+        .info {
+            padding-top: 2%;
+            font-family: Helvetica, sans-serif;
+            margin: auto;
+            text-align-all: center;
+        }
+        input {
+            padding: 5px;
+            width: 90%;
+        }
+        table {
+            margin: auto;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: left;
+            border: 1px solid black;
+        }
+    </style>
+    </head>
+
+<!-- RegistroBichos body -->
+<body>
+
+<div class="title"> RegistroBichos.com </div>
+
+<div class="subtitle">
+    Bienvenidos a RegistroBichos.com, la página de registro de avistamientos de insectos,
+    arácnidos y miriápodos
+
+    <br>
+
+    <p class="leyenda">
+        <a href="/~ngarcia/informar.html">
+        <button class="button"> Informar avistamiento </button>
+        </a>
+
+        <a href="/~ngarcia/cgi-bin/avistamientos.py?pag=1">
+            <button class="button" > Registro de Avistamientos </button>
+        </a>
+        <a href="/~ngarcia/stats.html">
+            <button class="button"> Estadísticas </button>
+        </a>
+    <p>
+</div>
+
+<div class="jump"></div>
+
+<div class="subsubtitle"> Informar Avistamientos </div>
+
+<div class="info">
+    <form id="datos" name="datos" method="post" action="cgi-bin/save_data.py" enctype="multipart/form-data">
+        <!-- We start a table to organize the info menu -->
+        <table class="table" id="table1">
+            <!-- First row -->
+            <tr>
+                <th rowspan="3"> Lugar </th>
+                <td> Región </td>
+                <td>
+                    <select required="required" name="region" onchange="select_comunas()">
+                        <option value="" disabled selected> Seleccione una Región </option>
+                        <option value="1"> Arica y Parinacota </option>
+                        <option value="2"> Tarapacá </option>
+                        <option value="3"> Antofagasta </option>
+                        <option value="4"> Atacama </option>
+                        <option value="5"> Coquimbo </option>
+                        <option value="6"> Valparaíso </option>
+                        <option value="7"> Libertador General Bernardo O'Higgins </option>
+                        <option value="8"> Maule </option>
+                        <option value="9"> Ñuble </option>
+                        <option value="10"> BioBío </option>
+                        <option value="11"> La Araucanía </option>
+                        <option value="12"> Los Ríos </option>
+                        <option value="13"> Los Lagos </option>
+                        <option value="14"> Aysén del General Carlos Ibañez del Campo </option>
+                        <option value="15"> Magallanes y la Antartica Chilena </option>
+                        <option value="16"> Metropolitana de Santiago </option>
+                    </select>
+                </td>
+            </tr>
+            <!-- Second row -->
+            <tr>
+                <td> Comuna </td>
+                <td>
+                    <select required="required" name="comuna">
+                        <option value="" disabled selected> Seleccione una Comuna </option>
+                    </select>
+                </td>
+            </tr>
+
+            <!-- Third row -->
+            <tr>
+                <td> Sector </td>
+                <td> <input name="sector" size="200" placeholder="Ingrese el sector (Opcional)"> </td>
+            </tr>
+
+            <!-- Fourth row -->
+            <tr>
+                <th rowspan="3"> Contacto </th>
+                <td> Nombre </td>
+                <td> <input type="text" name="nombre" size="100" placeholder="Ingrese su Nombre" required="required"> </td>
+            </tr>
+
+            <!-- Fifth row -->
+            <tr>
+                <td> E-Mail </td>
+                <td> <input type="email" name="email" size="100" MAXLENGTH="200" placeholder="Ingrese su E-Mail" required="required"> </td>
+            </tr>
+
+            <!-- Sixth row -->
+            <tr>
+                <td> Celular </td>
+                <td> <input type="text" name="celular" size="15" placeholder="Ingrese su número celular (sin prefijo +569)"> </td>
+            </tr>
+
+            <!-- Seventh row -->
+            <tr>
+                <th rowspan="4" id="info-avist"> Información <br> del <br> Avistamiento </th>
+                <td> Día / Hora </td>
+                <td>
+                    <input type="text" name="dia-hora-avistamiento" size="20" placeholder="Ingrese fecha (aaaa-mm-dd hh:mm)">
+                </td>
+            </tr>
+
+            <!-- Eighth row -->
+            <tr>
+                <td> Tipo </td>
+                <td>
+                    <select required="required" name="tipo-avistamiento">
+                        <option value="" disabled selected> Seleccione un tipo </option>
+                        <option value="I"> Insecto </option>
+                        <option value="A"> Arácnido </option>
+                        <option value="M"> Miriápodo </option>
+                        <option value="N"> No sé </option>
+                    </select>
+                </td>
+            </tr>
+
+            <!-- Nineth row -->
+            <tr>
+                <td> Estado </td>
+                <td>
+                    <select required="required" name="estado-avistamiento">
+                        <option value="" disabled selected> Seleccione un Estado </option>
+                        <option value="V"> Vivo </option>
+                        <option value="M"> Muerto </option>
+                        <option value="N"> No sé </option>
+                    </select>
+                </td>
+            </tr>
+
+            <!-- Tenth row -->
+            <tr>
+                <td rowspan="1" id="info-avist-foto"> Foto </td>
+
+                <td>
+                    <input style="display:inline" type="file" name="foto-avistamiento" accept=".jpg,.png,.jpeg"/>
+                    <button name="boton_agregar" onclick="agregar_img(1)" type="button"> Agregar imágen </button>
+                </td>
+            </tr>
+
+        </table>
+        <!-- We close the table -->
+        <div class="jump"></div>
+
+        <div class="info" id="agregar_aqui_avistamiento"> </div>
+
+        <div class="leyenda">
+            <button class="button" type="button" style="display:inline" onclick="agregar_avistamiento()"> Informar otro avistamiento en este sector </button>
+            <button class="button" type="button" style="display:inline" onclick="verificador()"> Enviar información de avistamiento </button>
+        </div>
+    </form>
+</div>
+
+<div class="jump"></div>
+
+<script>
+    let lista_comunas = {
+        '1': ["Arica","Camarones","Putre","General Lagos"],
+        '2': ["Iquique","Alto Hospicio","Pozo Almonte","Camiña","Colchane","Huara","Pica"],
+        '3': ["Antofagasta","Mejillones","Sierra Gorda","Taltal","Calama","Ollague","San Pedro De Atacama","Tocopilla","María Elena"],
+        '4': ["Copiapó","Caldera","Tierra Amarilla","Chañaral","Diego De Almagro","Vallenar","Alto Del Carmen","Freirina","Huasco"],
+        '5': ["La Serena","Coquimbo","Andacollo","La Higuera","Paiguano","Vicuña","Illapel","Canela","Los Vilos","Salamanca","Ovalle","Combarbalá","Monte Patria","Punitaqui","Río Hurtado"],
+        '6': ["Valparaíso","Casablanca","Concón","Juan Fernández","Puchuncaví","Quintero","Viña Del Mar","Isla De Pascua","Los Andes","Calle Larga","Rinconada","San Esteban","La Ligua","Cabildo","Papudo","Petorca","Zapallar","Quillota","Calera","Hijuelas","La Cruz","Nogales","San Antonio","Algarrobo","Cartagena","El Quisco","El Tabo","Santo Domingo","San Felipe","Catemu","Llaillay","Panquehue","Putaendo","Santa María","Quilpué","Limache","Olmué","Villa Alemana"],
+        '7': ["Rancagua","Codegua","Coinco","Coltauco","Doñihue","Graneros","Las Cabras","Machali","Malloa","Mostazal","El Olivar","Peumo","Pichidegua","Quinta De Tilcoco","Rengo","Requinoa","San Vicente","Pichilemu","La Estrella","Litueche","Marchihue","Navidad","Paredones","San Fernando","Chépica","Chimbarongo","Lolol","Nancagua","Palmilla","Peralillo","Placilla","Pumanque","Santa Cruz"],
+        '8': ["Talca","Constitución","Curepto","Empedrado","Maule","Pelarco","Pencahue","Río Claro","San Clemente","San Rafael","Cauquenes","Chanco","Pelluhue","Curicó","Hualañe","Licantén","Molina","Rauco","Romeral","Sagrada Familia","Teno","Vichuquén","Linares","Colbún","Longaví","Parral","Retiro","San Javier","Villa Alegre","Yerbas Buenas"],
+        '9': ["Cobquecura","Coelemu","Ninhue","Portezuelo","Quirihue","Ránquil","Trehuaco","Bulnes","Chillán Viejo","Chillán","El Carmen","Pemuco","Pinto","Quillón","San Ignacio","Yungay","Coihueco","Ñinquén","San Carlos","San Fabián","San Nicolás"],
+        '10': ["Concepción","Coronel","Chiguayante","Florida","Hualqui","Lota","Penco","San Pedro de la Paz","Santa Juana","Talcahuano","Tomé","Hualpén","Lebu","Arauco","Cañete","Contulmo","Curanilahue","Los Alamos","Tirua","Los Angeles","Antuco","Cabrero","Laja","Mulchén","Nacimiento","Negrete","Quilaco","Quilleco","San Rosendo","Santa Bárbara","Tucapel","Yumbel","Alto Biobío","Chillán","Bulnes","Cobquecura","Coelemu","Coihueco","Chillán Viejo","El Carmen","Ninhue","Ñiquén","Pemuco","Pinto","Portezuelo","Quillón","Quirihue","Ranquil","San Carlos","San Fabián","San Ignacio","San Nicolás","Treguaco","Yungay"],
+        '11': ["Temuco","Carahue","Cunco","Curarrehue","Freire","Galvarino","Gorbea","Lautaro","Loncoche","Melipeuco","Nueva Imperial","Padre Las Casas","Perquenco","Pitrufquén","Pucón","Saavedra","Teodoro Schmidt","Toltén","Vilcún","Villarrica","Cholchol","Angol","Collipulli","Curacautín","Ercilla","Lonquimay","Los Sauces","Lumaco","Puren","Renaico","Traiguén","Victoria"],
+        '12': ["Valdivia","Corral","Lanco","Los Lagos","Máfil","Mariquina","Paillaco","Panguipulli","La Unión","Futrono","Lago Ranco","Río Bueno"],
+        '13': ["Puerto Montt","Calbuco","Cochamó","Fresia","Frutillar","Los Muermos","Llanquihue","Maullín","Puerto Varas","Castro","Ancud","Chonchi","Curaco de Velez","Dalcahue","Puqueldón","Queilén","Quellón","Quemchi","Quinchao","Osorno","Puerto Octay","Purranque","Puyehue","Río Negro","San Juan de la Costa","San Pablo","Chaitén","Futaleufú","Hualaihue","Palena"],
+        '14': ["Coihayque","Lago Verde","Aisén","Cisnes","Guaitecas","Cochrane","O'Higgins","Tortel","Chile Chico","Río Ibáñez"],
+        '15': ["Punta Arenas","Laguna Blanca","Río Verde","San Gregorio","Cabo de Hornos","Antártica","Porvenir","Primavera","Timaukel","Natales","Torres del Paine"],
+        '16': ["Santiago","Cerrillos","Cerro Navia","Conchalí","El Bosque","Estación Central","Huechuraba","Independencia","La Cisterna","La Florida","La Granja","La Pintana","La Reina","Las Condes","Lo Barnechea","Lo Espejo","Lo Prado","Macul","Maipú","Ñuñoa","Pedro Aguirre Cerda","Peñalolén","Providencia","Pudahuel","Quilicura","Quinta Normal","Recoleta","Renca","San Joaquín","San Miguel","San Ramón","Vitacura","Puente Alto","Pirque","San José De Maipo","Colina","Lampa","Tiltil","San Bernardo","Buin","Calera De Tango","Paine","Melipilla","Alhué","Curacaví","María Pinto","San Pedro","Talagante","El Monte","Isla De Maipo","Padre Hurtado","Peñaflor"]
+    };
+
+    function select_comunas(){
+        let regiones = document.getElementsByName('region')[0];
+        let comuna = document.getElementsByName('comuna')[0];
+        let region_selected = regiones.value;
+        comuna.innerHTML = '<option value=""> Seleccione una comuna </option>';
+
+        if (region_selected !== '') {
+            let comuna_por_region = lista_comunas[region_selected];
+            for (c in comuna_por_region) {
+                let opcion = document.createElement("option");
+                opcion.text = comuna_por_region[c];
+                comuna.add(opcion);
+            }
+        }
+    }
+
+    function verificador(){
+        let nombre = document.getElementsByName("nombre")[0].value;
+        let email = document.getElementsByName("email")[0].value;
+        let celular = document.getElementsByName("celular")[0].value;
+        let sector = document.getElementsByName("sector")[0].value;
+        let fechas = document.getElementsByName("dia-hora-avistamiento");
+        let archivos = document.getElementsByName('foto-avistamiento');
+        let aproved = true;
+
+        if ((nombre.length > 200) || (!(/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü \s]+$/.test(nombre)))) {
+            alert("El nombre ingresado es incorrecto.");
+            aproved = false;
+        }
+        if (!(/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i.test(email))) {
+            alert("La dirección de email es incorrecta.");
+            aproved = false;
+        }
+        if ((celular !== "") && (!(/^\d{8}$/.test(celular)))) {
+            alert("El número ingresado es incorrecto.");
+            aproved = false;
+        }
+        if ((sector !== "") && ((nombre.length > 100) || (!(/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü \s]+$/.test(nombre))))) {
+            alert("El sector ingresado es incorrecto.");
+            aproved = false;
+        }
+        for (let i=0; i<=fechas.length - 1; i++){
+            var fecha = fechas[i].value;
+            let expr = /^\d{4}-((0[13578]|1[02])-(0[1-9]|[12]\d|3[01])|(0[469]|11)-(0[1-8]|[12]\d|30)|02-(0[1-9]|[1]\d|2[0-9])) ([01]\d|2[0123]):([0-4]\d|5[0-9])$/;
+            if (!(expr.test(fecha))){
+                alert("La fecha ingresada es incorrecta");
+                aproved = false;
+            }
+        }
+
+        for (let i = 0; i < archivos.length; i++){
+            let foto = archivos[i];
+            if (foto.files.length == 0){
+                alert("Falta ingresar un archivo");
+                aproved = false;
+            }
+            else if (!/(.jpg|.jpeg|.png)$/.test(foto.value)){
+                    alert("Archivo ingresado inválido");
+                    aproved = false;
+                }
+        }
+
+        if (document.getElementsByName('region')[0].value == ""){
+            alert("No se ha ingresado una region");
+            aproved = false;
+        }
+
+        if (document.getElementsByName('comuna')[0].value == ""){
+            alert("No se ha ingresado una comuna");
+            aproved = false;
+        }
+
+        for (let i=0; i<document.getElementsByName("tipo-avistamiento").length; i++){
+            if (document.getElementsByName('tipo-avistamiento')[i].value == ""){
+                alert("No se ha ingresado un tipo de bicho");
+                aproved = false;
+            }
+            if (document.getElementsByName('estado-avistamiento')[i].value == ""){
+                alert("No se ha ingresado un estado del bicho");
+                aproved = false;
+            }
+        }
+
+        if (aproved == true){
+            ingresar();
+        }
+    }
+
+    function ingresar(){
+        let confirma = confirm("¿Está seguro que desea enviar esta información?");
+        if (confirma == true) {
+            let formulario = document.getElementById("datos");
+            formulario.submit();
+        }
+    }
+
+    function agregar_img(num){
+        if (num==1){
+            let tabla1 = document.getElementById("table1");
+            if (tabla1.rows.length < 14){
+                tabla1.insertRow(-1).innerHTML = '<tr> <td> <input style="display:inline" type="file" name="foto-avistamiento" accept=".jpg,.png,.jpeg"/> </tr>\n';
+                let row1 = parseInt(document.getElementById("info-avist").getAttribute("rowspan"));
+                let row2 = parseInt(document.getElementById("info-avist-foto").getAttribute("rowspan"));
+                document.getElementById("info-avist").setAttribute("rowspan",(row1+1).toString());
+                document.getElementById("info-avist-foto").setAttribute("rowspan",(row2+1).toString());
+            }
+        } else {
+            let tabla2 = document.getElementById("table2");
+            if (tabla2.rows.length < 8){
+                tabla2.insertRow(-1).innerHTML = '<tr> <td> <input style="display:inline" type="file" name="foto-avistamiento" accept=".jpg,.png,.jpeg"/> </tr>\n';
+                let row1 = parseInt(document.getElementById("info-avist-2").getAttribute("rowspan"));
+                let row2 = parseInt(document.getElementById("info-avist-2-foto").getAttribute("rowspan"));
+                document.getElementById("info-avist-2").setAttribute("rowspan",(row1+1).toString());
+                document.getElementById("info-avist-2-foto").setAttribute("rowspan",(row2+1).toString());
+            }
+        }
+    }
+
+    function agregar_avistamiento(){
+        let avist = document.getElementById("agregar_aqui_avistamiento");
+        avist.innerHTML = '<table class="table" id="table2">\n' +
+            '            <!-- Seventh row -->\n' +
+            '            <tr>\n' +
+            '                <th rowspan="4" id="info-avist-2"> Información <br> del <br> Avistamiento </th>\n' +
+            '                <td> Día / Hora </td>\n' +
+            '                <td>\n' +
+            '                    <input type="text" name="dia-hora-avistamiento" size="20" placeholder="Ingrese fecha (aaaa-mm-dd hh:mm)">\n' +
+            '                </td>\n' +
+            '            </tr>\n' +
+            '\n' +
+            '            <!-- Eighth row -->\n' +
+            '            <tr>\n' +
+            '                <td> Tipo </td>\n' +
+            '                <td>\n' +
+            '                    <select required="required" name="tipo-avistamiento">\n' +
+            '                        <option value="" disabled selected> Seleccione un tipo </option>\n' +
+            '                        <option value="I"> Insecto </option>\n' +
+            '                        <option value="A"> Arácnido </option>\n' +
+            '                        <option value="M"> Miriápodo </option>\n' +
+            '                        <option value="N"> No sé </option>\n' +
+            '                    </select>\n' +
+            '                </td>\n' +
+            '            </tr>\n' +
+            '\n' +
+            '            <!-- Nineth row -->\n' +
+            '            <tr>\n' +
+            '                <td> Estado </td>\n' +
+            '                <td>\n' +
+            '                    <select required="required" name="estado-avistamiento">\n' +
+            '                        <option value="" disabled selected> Seleccione un Estado </option>\n' +
+            '                        <option value="V"> Vivo </option>\n' +
+            '                        <option value="M"> Muerto </option>\n' +
+            '                        <option value="N"> No sé </option>\n' +
+            '                    </select>\n' +
+            '                </td>\n' +
+            '            </tr>\n' +
+            '\n' +
+            '            <!-- Tenth row -->\n' +
+            '            <tr>\n' +
+            '                <td rowspan="1" id="info-avist-2-foto"> Foto </td>\n' +
+            '\n' +
+            '                <td>\n' +
+            '                    <input style="display:inline" type="file" name="foto-avistamiento" accept=".jpg,.png,.jpeg"/>\n' +
+            '                    <button name="boton_agregar" onclick="agregar_img(2)" type="button"> Agregar imágen </button>\n' +
+            '                </td>\n' +
+            '            </tr>\n' +
+            '        </table>';
+
+        let boton_agregar_avist = document.getElementsByName('avist')[0];
+        boton_agregar_avist.setAttribute('style', 'display: none');
+    }
+</script>
+
+</body>
+
+</html>
