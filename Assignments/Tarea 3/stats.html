@@ -101,14 +101,14 @@
     <br>
 
     <p class="leyenda">
-        <a href="/~ngarcia/informar.html">
+        <a href="informar.html">
         <button class="button"> Informar avistamiento </button>
         </a>
 
-        <a href="/~ngarcia/cgi-bin/avistamientos.py?pag=1">
+        <a href="/cgi-bin/avistamientos.py?pag=1">
             <button class="button" > Registro de Avistamientos </button>
         </a>
-        <a href="/~ngarcia/stats.html">
+        <a href="stats.html">
             <button class="button"> Estadísticas </button>
         </a>
     <p>
@@ -117,6 +117,14 @@
 <div class="jump"></div>
 
 <div class="subsubtitle"> Estadísticas </div>
+
+<script>
+    src="https://cdn.jsdelivr.net/npm/chart.js"
+</script>
+
+<div style="margin:auto; height: 200px; width: 200px;">
+    <canvas id="graph1"></canvas>
+</div>
 
 <p class="leyenda">
     <img src="img/graph1.PNG" height="270" alt="grafico 1" style="display:inline">
@@ -127,7 +135,7 @@
 <div class="jump"></div>';
 
 <div class="leyenda">
-    <a href="/~ngarcia/cgi-bin/Portada.py">
+    <a href="/cgi-bin/Portada.py">
         <button class="button"> Volver a Portada </button>
     </a>
 </div>

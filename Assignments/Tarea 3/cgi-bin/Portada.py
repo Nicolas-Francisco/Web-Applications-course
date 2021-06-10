@@ -9,7 +9,7 @@ import db
 
 print("Content-type: text/html\r\n\r\n")
 utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
-database = db.Avistamiento("localhost", "cc500258_u", "uereturpis", "cc500258_db")
+database = db.Avistamiento("localhost", "root", "", "tarea2")
 data = database.get_last_five_avistamientos()
 
 head = '''
