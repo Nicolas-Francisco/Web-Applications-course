@@ -118,19 +118,9 @@
 
 <div class="subsubtitle"> Estadísticas </div>
 
-<script>
-    src="https://cdn.jsdelivr.net/npm/chart.js"
-</script>
-
-<div style="margin:auto; height: 200px; width: 200px;">
+<div style="margin:auto; height: 400px; width: 400px;">
     <canvas id="graph1"></canvas>
 </div>
-
-<p class="leyenda">
-    <img src="img/graph1.PNG" height="270" alt="grafico 1" style="display:inline">
-    <img src="img/graph2.PNG" height="290" alt="grafico 2" style="display:inline">
-    <img src="img/graph3.png" height="270" alt="grafico 3" style="display:inline">
-<p>
 
 <div class="jump"></div>';
 
@@ -142,5 +132,53 @@
 
 <div class="jump"></div>';
 </body>
+
+<script>
+    src="https://cdn.jsdelivr.net/npm/chart.js"
+
+    let xhrPie = new XMLHttpRequest();
+    xhrPie.open('POST', 'cgi-bin/graph1.py');
+    xhrPie.send()
+    xhrPie.timeout = 3000;
+
+    xhrPie.onload = function(data){
+        let cantidad = JSON.parse(data.currentTarget.responseText)
+
+        console.log(cantidad);
+
+        let spiders_count = Object.values(cantidad)[0];
+        let miriapods_count = Object.values(cantidad)[1];
+        let insects_count = Object.values(cantidad)[2];
+        let unknown_count = Object.values(cantidad)[3];
+
+        let spider = Object.keys(cantidad)[0];
+        let miriapod = Object.keys(cantidad)[1];
+        let insect = Object.keys(cantidad)[2];
+        let unknown = Object.keys(cantidad)[3];
+
+        const labels = [spider, miriapod, insect, unknown];
+
+        const config = {
+            type: 'pie',
+            data: {
+                labels:labels,
+                datasets: [{
+                    label: 'dataset',
+                    backgroundColor: ['rgb(255,99,132)', 'rgb(255,99,132)',
+                    'rgb(255,99,132)', 'rgb(255,99,132)'],
+                    data:[spiders_count, miriapods_count, insects_count, unknown_count],
+                }]
+            },
+            options:{}
+        };
+
+        let graph1 = new Chart(document.getElementById('graph1'), config);
+    };
+
+    xhrPie.onerror = function(){
+        showError('FatalError');
+    }
+
+</script>
 
 </html>

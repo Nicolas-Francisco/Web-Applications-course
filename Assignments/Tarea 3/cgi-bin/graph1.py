@@ -27,8 +27,9 @@ cursor.execute(sql)
 
 nose = cursor.fetchall()[0][0]
 
-cantidad = {'arácnidos':aracnidos, 'miriápodos':miriapodos, 'incectos':insectos, 'desconocido':nose}
+cantidad = {'arácnidos':aracnidos, 'miriápodos':miriapodos, 'insectos':insectos, 'desconocido':nose}
+
 json.dumps(cantidad)
-print(json.dumps(cantidad))
+print(json.dumps(cantidad)) # Es necesario para que aparezca en el html
 
 cursor.close()
