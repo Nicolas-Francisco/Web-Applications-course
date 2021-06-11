@@ -118,13 +118,36 @@
 
 <div class="subsubtitle"> Estadísticas </div>
 
-<script>
-    src="https://cdn.jsdelivr.net/npm/chart.js"
-</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"> </script>
+
+<div class="jump"></div>
 
 <div style="margin:auto; height: 400px; width: 400px;">
     <canvas id="graph1"></canvas>
 </div>
+
+<div class="jump"></div>
+
+<div style="margin:auto; height: 250px; width: 400px;">
+    <canvas id="graph2"></canvas>
+</div>
+
+<div class="jump"></div>
+
+<div style="margin:auto; height: 250px; width: 400px;">
+    <canvas id="graph3"></canvas>
+</div>
+
+<div class="jump"></div>
+
+<div class="leyenda">
+    <a href="/cgi-bin/Portada.py">
+        <button class="button"> Volver a Portada </button>
+    </a>
+</div>
+
+<div class="jump"></div>';
+</body>
 
 <script>
     let xhr1 = new XMLHttpRequest();
@@ -153,8 +176,8 @@
                 labels:labels,
                 datasets: [{
                     label: 'dataset',
-                    backgroundColor: ['rgb(255,99,132)', 'rgb(255,99,132)',
-                    'rgb(255,99,132)', 'rgb(255,99,132)'],
+                    backgroundColor: ['rgb(255,120,120)', 'rgb(126,185,243)',
+                    'rgb(156,225,141)', 'rgb(175,175,175)'],
                     data:[spiders_count, miriapods_count, insects_count, unknown_count],
                 }]
             },
@@ -167,12 +190,7 @@
     xhr1.onerror = function(){
         showError('FatalError');
     }
-
 </script>
-
-<div style="margin:auto; height: 400px; width: 400px;">
-    <canvas id="graph2"></canvas>
-</div>
 
 <script>
     let xhr2 = new XMLHttpRequest();
@@ -188,6 +206,7 @@
         let nose = Object.values(fechas)[2];
 
         let contador_vivos = Object.values(vivos)[0];
+        console.log(contador_vivos)
         let contador_muertos = Object.values(muertos)[1];
         let contador_nose = Object.values(nose)[2];
 
@@ -201,22 +220,22 @@
                 labels:labels,
                 datasets: [{
                     label: 'Vivos',
-                    backgroundColor: ['rgb(255,99,132)'],
-                    borderColor: ['rgb(255,99,132)'],
+                    backgroundColor: ['rgb(156,225,141)'],
+                    borderColor: ['rgb(175,175,175)'],
                     data:[contador_vivos[0], contador_vivos[1], contador_vivos[2], contador_vivos[3],
                     contador_vivos[4], contador_vivos[5], contador_vivos[6], contador_vivos[7],
                     contador_vivos[8], contador_vivos[9], contador_vivos[10], contador_vivos[11]]},
 
                     {label: 'Muertos',
-                    backgroundColor: ['rgb(255,99,132)'],
-                    borderColor: ['rgb(255,99,132)'],
+                    backgroundColor: ['rgb(255,120,120)'],
+                    borderColor: ['rgb(175,175,175)'],
                     data:[contador_muertos[0], contador_muertos[1], contador_muertos[2], contador_muertos[3],
                     contador_muertos[4], contador_muertos[5], contador_muertos[6], contador_muertos[7],
                     contador_muertos[8], contador_muertos[9], contador_muertos[10], contador_muertos[11]]},
 
                     {label: 'Desconocido',
-                    backgroundColor: ['rgb(255,99,132)'],
-                    borderColor: ['rgb(255,99,132)'],
+                    backgroundColor: ['rgb(175,175,175)'],
+                    borderColor: ['rgb(175,175,175)'],
                     data:[contador_nose[0], contador_nose[1], contador_nose[2], contador_nose[3],
                     contador_nose[4], contador_nose[5], contador_nose[6], contador_nose[7],
                     contador_nose[8], contador_nose[9], contador_nose[10], contador_nose[11]],}]
@@ -232,10 +251,6 @@
     }
 
 </script>
-
-<div style="margin:auto; height: 400px; width: 400px;">
-    <canvas id="graph3"></canvas>
-</div>
 
 <script>
     let xhr3 = new XMLHttpRequest();
@@ -261,10 +276,9 @@
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'ultima semana',
-                    backgroundColor: ['rgb(255,99,132)', 'rgb(255,99,132)',
-                    'rgb(255,99,132)', 'rgb(255,99,132)'],
-                    borderColor : 'rgb(255,99,132)',
+                    label: 'Días de la Semana',
+                    backgroundColor: 'rgb(156,225,141)',
+                    borderColor : 'rgb(100,100,100)',
                     data:[lunes_count, martes_count, miercoles_count, jueves_count,
                         viernes_count, sabado_count, domingo_count],
                 }]
@@ -278,19 +292,6 @@
     xhr3.onerror = function(){
         showError('FatalError');
     }
-
 </script>
-
-<div class="jump"></div>';
-
-<div class="leyenda">
-    <a href="/cgi-bin/Portada.py">
-        <button class="button"> Volver a Portada </button>
-    </a>
-</div>
-
-<div class="jump"></div>';
-</body>
-
 
 </html>

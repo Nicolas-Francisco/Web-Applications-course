@@ -1,6 +1,6 @@
 import json
 import mysql.connector
-import datatime
+import datetime
 import calendar
 
 connector = mysql.connector.connect(host="localhost", user="root", password="", database="tarea2")
@@ -9,21 +9,23 @@ cursor = connector.cursor()
 print("Content-type: text/html; charset=UTF-8")
 print('')
 
-def Dia(fecha):
-    dato = datatime.datetime.strptime(fecha, '%d %m %Y').weekday()
-    return (calendar.day_name[dato])
+
+def Nombre_dia(fecha):
+    dato = datetime.datetime.strptime(fecha, '%d %m %Y').weekday()
+    return calendar.day_name[dato]
+
 
 sql = "SELECT ALL dia_hora FROM detalle_avistamiento"
 cursor.execute(sql)
 
 fechas = cursor.fetchall()
 
-diccionario_dias = {'Lunes': 0, 'Martes': 0, 'Miercoles': 0, 'Jueves': 0,
-                    'Viernes': 0, 'Sábado': 0, 'Domingo': 0}
+diccionario_dias = {'Monday': 0, 'Tuesday': 0, 'Wednesday': 0, 'Thursday': 0,
+                    'Friday': 0, 'Saturday': 0, 'Sunday': 0}
 
 for fecha in fechas:
-    dia = d[0].strftime('%d %m %Y')
-    nombre_dia = Dia(dia)
+    dia = fecha[0].strftime('%d %m %Y')
+    nombre_dia = Nombre_dia(dia)
     diccionario_dias[nombre_dia] += 1
 
 json.dumps(diccionario_dias)
