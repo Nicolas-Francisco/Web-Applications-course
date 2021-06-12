@@ -190,6 +190,57 @@ foot = '''
 
 <div class="jump"></div>
 
+<div class="subsubtitle"> Mapa de Avistamientos </div>
+
+<div class="jump"></div>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" 
+integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" 
+crossorigin=""></script>
+
+<div id="mapid" style="width: 600px; height: 400px;"></div>
+
+<script>
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', 'macadores.py', true);
+    xhr.send()
+    xhr.timeout = 5000;
+    xhr.onload = function (data){
+        let coordenadas_comunas = JSON.parse(data.currentTarget.responseText);
+        let comunas = Objet.keys(coordenadas_comunas);
+        let coordenadas = Object.values(coordenadas_comunas);
+        
+        var mymap = L.map('mapid').setView([-33.4500000,-70.6666667], 13);
+        
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', 
+        {maxZoom: 18,
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1}).addTo(mymap);
+        
+        for (let i=0; i<comunas.length; i++){
+            let comuna = comunas[i];
+            let lat = parseFloat(coordenadas_comunas[comuna][0]);
+            let lng = parseFloat(coordenadas_comunas[comuna][1]);
+            
+            let marker = L.marker([lat, lng], {title:"Cantidad de avistamientos en la comuna de "+comuna+": "
+            +coordenadas_comunas[comuna][2]}).addTo(mymap);
+            
+            marker.on('click', function(marker_comuna){
+            
+            })
+        }
+    }
+    var popup = L.popup();
+
+    function onMapClick(e) {popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString())
+    .openOn(mymap);}
+    
+    mymap.on('click', onMapClick);
+</script>
+
 </body>
 
 </html>

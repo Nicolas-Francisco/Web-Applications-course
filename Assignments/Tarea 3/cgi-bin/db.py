@@ -318,3 +318,28 @@ class Avistamiento:
         #         cantidad de fotos por cada avistamiento)
 
         return data
+
+    def get_comunas_fotos(self):
+        sql = """
+        SELECT C.id, C.nombre, R.resultado
+        FROM comuna as C,
+            (SELECT A.comuna_id, COUNT(*) AS resultado 
+            FROM detalle_avistamiento AS D, foto AS F, avistamiento AS A 
+            WHERE A.id=D.avistamiento_id AND D.id=F.detalle_avistamiento_id
+            GROUP BY A.comuna_id) AS R 
+        WHERE C.id=R.comuna_id
+        """
+
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()
+
+    def get_listado_comuna(self, nombre_comuna):
+        sql = f"""
+        SELECT D.dia_hora, D.tipo, D.estado, F.ruta_archivo, A.id
+        FROM Comuna AS C, avistamiento AS A, foto AS F, detalle_avistamiento AS D
+        WHERE D.id=F.detalle:avistamiento_id AND D.avistamiento_id=A.id 
+        AND A.comuna_id=C.id AND C.nombre="{nombre_comuna}"
+        """
+        
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()
