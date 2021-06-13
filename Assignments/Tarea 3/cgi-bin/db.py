@@ -340,6 +340,6 @@ class Avistamiento:
         WHERE D.id=F.detalle:avistamiento_id AND D.avistamiento_id=A.id 
         AND A.comuna_id=C.id AND C.nombre="{nombre_comuna}"
         """
-        
+
         self.cursor.execute(sql)
         return self.cursor.fetchall()

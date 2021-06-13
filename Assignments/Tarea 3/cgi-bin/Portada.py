@@ -17,7 +17,7 @@ head = '''
 <html lang="en">
     <meta charset="UTF-8">
     <title> RegistroBichos </title>
-    <link rel="shortcut icon" href="img/emoji.ico" />
+    <link rel="shortcut icon" href="../img/emoji.ico" />
     <style>
         /* Body of the page*/
         body {
@@ -194,20 +194,18 @@ foot = '''
 
 <div class="jump"></div>
 
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" 
-integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" 
-crossorigin=""></script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="  crossorigin=""></script>
 
-<div id="mapid" style="width: 600px; height: 400px;"></div>
+<div id="mapid" style="width: 400px; height: 400px;"></div>
 
 <script>
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', 'macadores.py', true);
+    xhr.open('POST', 'marcadores.py', true);
     xhr.send()
     xhr.timeout = 5000;
     xhr.onload = function (data){
         let coordenadas_comunas = JSON.parse(data.currentTarget.responseText);
-        let comunas = Objet.keys(coordenadas_comunas);
+        let comunas = Object.keys(coordenadas_comunas);
         let coordenadas = Object.values(coordenadas_comunas);
         
         var mymap = L.map('mapid').setView([-33.4500000,-70.6666667], 13);
@@ -228,17 +226,70 @@ crossorigin=""></script>
             let marker = L.marker([lat, lng], {title:"Cantidad de avistamientos en la comuna de "+comuna+": "
             +coordenadas_comunas[comuna][2]}).addTo(mymap);
             
-            marker.on('click', function(marker_comuna){
+            marker.on('click', on_click)
             
-            })
+            function on_click(marker_comuna){
+                let lat = marker_comuna.latlng["lat"]
+                let lng = marker_comuna.latlng["lng"]
+                let name_comuna;
+                
+                for (let j=0; j<coordenadas.length; j++){
+                    let array = coordenadas[j];
+                    let lat_str = array[0];
+                    let lng_str = array[1];
+                    let lat_float = parseFloat(lat_str);
+                    let lng_float = parseFloat(lng_str);
+                    
+                    if (lat == lat_float && lng == lng_float){
+                        name_comuna = comunas[j];
+                        break;
+                    }
+                }
+                
+                let xhr_map = new XMLHttpRequest();
+                let data = new FormData();
+                data.append('comuna', name_comuna);
+                xhr_map.open('POST', 'map_marker.py');
+                xhr_map.send(data);
+                xhr_map.timeout = 5000;
+                xhr_map.onload = function(data) {
+                    let listado = JSON.parse(data.currentTarget.responseText);
+                    let llaves = Object.keys(listado);
+                    let datos = Object.values(listado);
+                    
+                    html = `<table>
+                        <caption> Avistamientos de la comuna </caption>
+                        <tr>
+                            <th> Fecha-Hora </th>
+                            <th> Tipo </th>
+                            <th> Estado </th>
+                            <th> Foto </th>
+                            <th> Enlace </th>
+                        </tr> `;
+                        
+                    for (let i = 0; i<llaves.length; i++){
+                        let llave = llaves[i];
+                        let hora = listado[llave][0];
+                        let tipo = listado[llave][1];
+                        let estado = listado[llave][2];
+                        let path = listado[llave][3];
+                        let id = listado[llave][4];
+                        
+                        html+= `<tr> 
+                            <td>${hora}</td>
+                            <td>${tipo}</td>
+                            <td>${estado}</td>
+                            <td><img src=../media/${path} with="40" height="40"></td>
+                            <td><a href="Informacion.py?id=${id}&pag=1" taget="_blank"> Ver avistamiento </td>
+                        </tr>`;
+                    }
+                    html += `</table>`;
+                    
+                    marker.bindPopup(html);
+                }
+            }
         }
-    }
-    var popup = L.popup();
-
-    function onMapClick(e) {popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString())
-    .openOn(mymap);}
-    
-    mymap.on('click', onMapClick);
+    };
 </script>
 
 </body>
