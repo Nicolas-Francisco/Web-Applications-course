@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
 import cgitb;
 
 cgitb.enable()
@@ -5,10 +8,10 @@ import db
 import json
 
 latitudes = None
-with open("latitud-longitud.json") as file:
+with open("../latitud-longitud.json") as file:
     latitudes = json.load(file)
 
-database = db.Avistamiento("localhost", "root", "", "tarea2")
+database = db.Avistamiento("localhost", "cc500258_u", "uereturpis", "cc500258_db")
 print("Content-type: text/html\r\n\r\n")
 utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 

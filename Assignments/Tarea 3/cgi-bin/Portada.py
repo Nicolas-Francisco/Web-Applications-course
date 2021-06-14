@@ -9,7 +9,7 @@ import db
 
 print("Content-type: text/html\r\n\r\n")
 utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
-database = db.Avistamiento("localhost", "root", "", "tarea2")
+database = db.Avistamiento("localhost", "cc500258_u", "uereturpis", "cc500258_db")
 data = database.get_last_five_avistamientos()
 
 head = '''
@@ -284,7 +284,7 @@ foot = '''
                             <td>${tipo}</td>
                             <td>${estado}</td>
                             <td><img src=../media/${path} width="40" height="40"></td>
-                            <td><a href="Informacion.py?id=${id}&pag=1" taget="_blank"> Ver avistamiento </td>
+                            <td><a href="Informacion.py?id=${id}&pag=1"> Ver avistamiento </td>
                         </tr>`;
                     }
                     html += `</table>`;

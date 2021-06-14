@@ -1,8 +1,10 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
 import json
 import mysql.connector
 
-connector = mysql.connector.connect(host="localhost", user="root", password="", database="tarea2")
-
+connector = mysql.connector.connect(host="localhost", user="cc500258_u", password="uereturpis", database="cc500258_db")
 cursor = connector.cursor()
 print("Content-type: text/html; charset=UTF-8")
 print('')
