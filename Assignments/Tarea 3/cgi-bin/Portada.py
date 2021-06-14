@@ -177,7 +177,7 @@ else:
         <th> {str(data[0][i][1])} </th>
         <th> {str(sector)} </th>
         <th> {str(data[0][i][3])} </th>
-        <th> <img class="size" src=../media/{str(data[1][i])} width="120px" height="120px"> </th>
+        <th> <img class="size" src=../media/{str(data[1][i])} width="120" height="120" alt="img"> </th>
         </tr>
         '''
         print(row, file=utf8stdout)
@@ -226,8 +226,7 @@ foot = '''
             let comuna = comunas[i];
             let lat = parseFloat(coordenadas_comunas[comuna][0]);
             let lng = parseFloat(coordenadas_comunas[comuna][1]);
-            console.log(lat);
-            console.log(lng);
+            
             let marker = L.marker([lat, lng], {title:"Cantidad de avistamientos en la comuna de "+comuna+": "+
             coordenadas_comunas[comuna][2]}).addTo(mymap);
             
@@ -250,7 +249,7 @@ foot = '''
                         break;
                     }
                 }
-                
+         
                 let xhr_map = new XMLHttpRequest();
                 let data = new FormData();
                 data.append('comuna', name_comuna);
@@ -284,7 +283,7 @@ foot = '''
                             <td>${hora}</td>
                             <td>${tipo}</td>
                             <td>${estado}</td>
-                            <td><img src=../media/${path} with="40" height="40"></td>
+                            <td><img src=../media/${path} width="40" height="40"></td>
                             <td><a href="Informacion.py?id=${id}&pag=1" taget="_blank"> Ver avistamiento </td>
                         </tr>`;
                     }

@@ -28,4 +28,4 @@ for comuna in comunas_fotos:
     datos_comuna = get_comuna(comuna[1])
     diccionario_latitudes[comuna[1]] = [datos_comuna["lat"], datos_comuna["lng"], comuna[2]]
 
-print(json.dumps(comunas_fotos))
+print(json.dumps(diccionario_latitudes))

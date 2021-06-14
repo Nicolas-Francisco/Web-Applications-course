@@ -336,8 +336,8 @@ class Avistamiento:
     def get_listado_comuna(self, nombre_comuna):
         sql = f"""
         SELECT D.dia_hora, D.tipo, D.estado, F.ruta_archivo, A.id
-        FROM Comuna AS C, avistamiento AS A, foto AS F, detalle_avistamiento AS D
-        WHERE D.id=F.detalle:avistamiento_id AND D.avistamiento_id=A.id 
+        FROM comuna AS C, avistamiento AS A, foto AS F, detalle_avistamiento AS D
+        WHERE D.id=F.detalle_avistamiento_id AND D.avistamiento_id=A.id 
         AND A.comuna_id=C.id AND C.nombre="{nombre_comuna}"
         """
 
