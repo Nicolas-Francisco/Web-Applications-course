@@ -24,7 +24,15 @@ The second assignment of this course is the extension of the previous project us
 - the _informar.html_ page. Here we can send a record of an insect.
 - the _stats.html_ page. Here we can see the stats of the insect sighting records. This graphs are still photos.
 
-To run this application, just run the file _**portada.html**_, which is the main page of this software.
+To run this application, change the credentials of the database called in the .py files (cgi-bin) with the ones you want to use on your own locally, then just run the file _**portada.html**_, which is the main page of this software.
+
+
+**Assignment 3 (Tarea 3)**
+---
+
+On this assignment we extend the previous work, adding a map on the main page of the application and some graphs based on the information saved in the database.
+
+To run this application, change the credentials of the database called in the .py files (cgi-bin) with the ones you want to use on your own locally, then just run the file _**portada.html**_, which is the main page of this software.
 
 
 Credits
@@ -33,11 +41,5 @@ Credits
 - **Student** Nicolás García Ríos
 
 <h3 align="center">
-  Computer Sciences Department
-</h3>
-<h3 align="center">
-  Faculty of Physical and Mathematical Sciences
-</h3>
-<h3 align="center">
-  University of Chile
+  Computer Sciences Department <br> Faculty of Physical and Mathematical Sciences <br> University of Chile
 </h3>
