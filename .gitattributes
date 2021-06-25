@@ -1,3 +1,4 @@
 *.py linguist-detectable=false  
 *.ps1 linguist-detectable=false
+*.bat linguist-detectable=false
 *.java linguist-language=JavaScript
